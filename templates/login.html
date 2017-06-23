@@ -27,8 +27,8 @@
             {% endif %}
             <form class="form-signin" action="/login_form" method="POST">
                 <span id="reauth-email" class="reauth-email"></span>
-                <p class="input_title">Email</p>
-                <input type="text" name="email" class="email_input" placeholder="Enter your email here." required >
+                <p class="input_title">Username</p>
+                <input type="text" name="username" class="username_input" placeholder="Enter your username here." required >
                 <p class="input_title">Password</p>
                 <input type="password" name="password" class="login_box" placeholder="******" required>
                 
@@ -39,9 +39,6 @@
         </div><!-- /card-container -->
     </div><!-- /container -->
     
-    <script src="https://use.typekit.net/ayg4pcz.js"></script>
-    <script>try{Typekit.load({ async: true });}catch(e){}</script>
-    <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src={{url_for('static', filename='materialize.js')}}></script>
+    <script type="text/javascript" src="{{url_for('static', filename='jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='materialize.js')}}"></script>
 </body>

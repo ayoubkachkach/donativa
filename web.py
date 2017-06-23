@@ -1,6 +1,8 @@
-from flask import Flask, url_for, request, render_template, redirect
+from flask import Flask, url_for, request, render_template, redirect, session
 
-users_db = {'ayoub':'azerty', 'manal':'qwerty', 'nisrine':'SW<3', 'abdelmajid':'saykouk'}
+users_db = {'ayoub':'azerty', 'demo': 'demo',
+			'manal':'qwerty', 'nisrine':'SW<3',
+			'abdelmajid':'saykouk'}
 
 app = Flask(__name__)
 
@@ -12,24 +14,31 @@ def add_header(r):
     r.headers['Cache-Control'] = 'public, max-age=0'
     return r
 
-@app.route('/', methods=['GET'])
+@app.route('/')
+def index():
+	return render_template("index.html")
+
+@app.route('/login', methods=['GET'])
 def login():
 	return render_template("login.html")
 
 @app.route('/login_form', methods=['POST'])
 def login_form():
-	email = request.form['email']
+	username = request.form['username']
 	password = request.form['password']
-	if password == users_db.get(email):
-		return redirect(url_for('profile', name=request.form['email']))
+	if password == users_db.get(username):
+		session['logged_in_user'] = username
+		return redirect(url_for('index'))
 	else:
 		return render_template('login.html', error="Wrong credentials!")
 
-@app.route('/profile/<name>')
-def profile(name):
-	date = "29/12/1997"
-	age = 19
-	return render_template("index.html", name=name, age=age, date=date)
+@app.route('/logout')
+def logout():
+	del session['logged_in_user']
+	return redirect('/')
 
+if __name__ == '__main__':
+	app.secret_key = 'not-so-secret-key'
+	app.run(debug=True)
 
 
