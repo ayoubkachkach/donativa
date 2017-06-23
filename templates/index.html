@@ -2,19 +2,19 @@
 {% block title %}Donativa - Home{% endblock %}
 
 {% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="index.css") }}">
 {% endblock %}
 
 {% block javascript %}
 {% endblock %}
 
 {% block body %}
-  <div class="jumbotron">
-	<h1>Hey {{name}}! How are you?</h1>
+  <div id="hero-block" class="jumbotron">
+	<h1>Change the world, one donation at a time.</h1>
 
-    <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-    <p>To see the difference between static and fixed top navbars, just scroll.</p>
+    <p>With Donativa, donate your unused items to the people that need it the most through our certified charity partners. Free space in your house, give your items a second life, and help your community!</p>
     <p>
-      <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+      <a class="btn btn-lg btn-primary" href="/signup" role="button">Join the movement!</a>
     </p>
   </div>
 {% endblock %}

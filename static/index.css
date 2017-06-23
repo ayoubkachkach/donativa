@@ -1,0 +1,17 @@
+#hero-block {
+    background: linear-gradient(rgba(255, 255, 255, 0.7), white 75%);
+    position: relative;
+}
+
+#hero-block:after {
+    content: "";
+	background: url(../static/images/index-photo.png) no-repeat;
+	background-size: cover;
+    /* opacity: 0.5; */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;   
+}
