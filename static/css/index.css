@@ -5,7 +5,7 @@
 
 #hero-block:after {
     content: "";
-	background: url(../static/images/index-photo.png) no-repeat;
+	background: url(../images/index-photo.png) no-repeat;
 	background-size: cover;
     /* opacity: 0.5; */
     top: 0;
