@@ -1,0 +1,28 @@
+body{
+  padding-top: 51px;
+}
+
+h1{
+  padding-bottom: 50px;
+}
+.container {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+div {
+  display: table-cell;
+  text-align: center;
+  vertical-align:;
+  
+  
+}
+
+.left-half {
+  background: rgba(224, 224, 224, 0.77);
+}
+
+.right-half {
+  background: rgba(224, 224, 224, 0.77);
+}

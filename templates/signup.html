@@ -1,24 +1,22 @@
 {% extends 'base.html' %}
 
+{% block css %}
+<link type="text/css" rel="stylesheet" href={{url_for('static', filename='css/signup.css')}} />
+{% endblock %}
 {% block body %}
-<h1>Sign-up for Donativa</h1>
-{% from "includes/_formhelpers.html" import render_field %}
-<form method="POST" action="">
-  <div class="form-group">
-    {{render_field(form.name, class_="form-control")}}
+<h1>Sign-up for Donativa ...</h1>
+<section class="container">
+  <div class="left-half">
+    <article>
+      <h1>.. as a Donator</h1>
+      <p>Weekends don't count unless you spend them doing something completely pointless.</p>
+    </article>
   </div>
-  <div class="form-group">
-    {{render_field(form.email, class_="form-control")}}
+  <div class="right-half">
+    <article>
+      <h1>.. as an Association.</h1>
+      <p>If your knees aren't green by the end of the day, you ought to seriously re-examine your life.</p>
+    </article>
   </div>
-  <div class="form-group">
-    {{render_field(form.username, class_="form-control")}}
-  </div>
-  <div class="form-group">
-    {{render_field(form.password, class_="form-control")}}
-  </div>
-  <div class="form-group">
-    {{render_field(form.confirm, class_="form-control")}}
-  </div>
-  <p><input type="submit" class="btn btn-primary" value="Submit"></p>
-</form>
+</section>
 {% endblock %}
