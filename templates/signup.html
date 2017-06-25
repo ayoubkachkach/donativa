@@ -4,17 +4,18 @@
 <link type="text/css" rel="stylesheet" href={{url_for('static', filename='css/signup.css')}} />
 {% endblock %}
 {% block body %}
-<h1>Sign-up for Donativa ...</h1>
-<div class="row vdivide">
-  <div class="col-md-6 left-part">
+<h1 class="title">Sign-up for Donativa...</h1>
+<div class="row">
+  <div class="col-md-6 left-part" >
     <article>
-      <h2>.. as a Donator.</h2>
+      <button type="button" class="btn btn-primary btn-lg btn-block" style="width: 450px">...as a Donor.</button>
       <img src="../static/images/donator-signup.jpg" style="margin-left: -40px; padding-top: 20px; padding-bottom: 20px;">
-      <h5>As a registered donor, you will have access to a catalogue of certified associations to whom you can donate your used clothes, books and other possessions.</h5>
-    </artimargin<left -80div padding-top: 50px; class="divider"></div>
+      <p style="margin-left:-48px; margin-right:30px">As a registered donor, you will have access to a catalogue of certified associations to whom you can donate your used clothes, books and other possessions.</p>
+      </article>
+  </div>
   <div class="col-md-6 right-part">
     <article>
-      <h2>.. as an Association.</h2>
+      <button type="button" class="btn btn-primary btn-lg btn-block btn-special" style="margin-left: 50px; width: 450px;">...as an Organization.</button>
       <img src="../static/images/101.jpg" style="padding-top: 20px; padding-bottom: 20px;">
       <p>You will be able to browse through the various donations posted by other donators and submit a request to the donator when once you find one that suits your needs.</p>
     </article>
