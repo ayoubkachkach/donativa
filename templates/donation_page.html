@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{%block css%}
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/donation_page.css") }}">
+{%endblock%}
+{% block body %}
+<div class="row">
+	<h2>Used Sweater and a Pair of Sneakers</h2>
+	<h4><small>17/06/2017 12:06AM</small></h4>
+</div>
+<div class="row">
+	<div class="col-md-8">
+		<img src="https://gloimg.gearbest.com/gb/pdm-product-pic/Clothing/2016/10/17/goods-img/1477375682286174391.jpg">
+		<p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat.</p>
+
+	
+	<div class="comments-container">
+		<h1>Comments:</h1>
+
+		<ul id="comments-list" class="comments-list">
+			<li>
+				<div class="comment-main-level">
+					<!-- Avatar -->
+					<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+					<!-- Contenedor del Comentario -->
+					<div class="comment-box">
+						<div class="comment-head">
+							<h6 class="comment-name by-organization"><a href="http://creaticode.com/blog">Manal Hamdi</a></h6>
+							<h4><small>20 minutes ago</small></h4>
+							<i class="fa fa-reply"></i>
+							<i class="fa fa-heart"></i>
+						</div>
+						<div class="comment-content">
+							Nice sweater! I am interested in getting it. Not for myself of course, I was thinking of my beloved cats. My house tends to get cold at night and they need something to keep their frail bodies warm.
+						</div>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="comment-main-level">
+					<!-- Avatar -->
+					<div class="comment-avatar"><img src="https://ih0.redbubble.net/image.211938184.8011/st%2Csmall%2C215x235-pad%2C210x230%2Cf8f8f8.lite-1u1.jpg" alt=""></div>
+					<!-- Contenedor del Comentario -->
+					<div class="comment-box">
+						<div class="comment-head">
+							<h6 class="comment-name by-donor"><a href="http://creaticode.com/blog">Ayoub Kachkach</a></h6>
+							<h4><small>A few seconds ago...</small></h4>
+							<i class="fa fa-reply"></i>
+							<i class="fa fa-heart"></i>
+						</div>
+						<div class="comment-content">
+							@Manal Hamdi: Douchebag.
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	</div>
+	<div class="col-md-4">
+		<button type="button" class="btn btn-primary btn-lg btn-block btn-request">Request Donation</button><br>
+
+		<a href="#" style="font-size:17px"><span class="glyphicon glyphicon-user"></span> <h4 style="display:inline;">Ayoub Kachkach</h4></a><br><br>
+		<a href="#" style="font-size:17px"><span class="glyphicon glyphicon-home"></span> <h4 style="display:inline;">Mohammedia</h4></a><br><br>
+		 <span class="glyphicon glyphicon-time time-icon"></span> <h4 class="time-text">12/06/2017 10:15</h4><br>
+		
+	</div>
+</div>
+{% endblock %}

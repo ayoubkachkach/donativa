@@ -3,10 +3,25 @@ from passlib.hash import sha256_crypt #encrypting the password
 
 import forms
 
+from functools import wraps
+
 users_db = {'demo':sha256_crypt.encrypt('demo')}
 triplets = [[1,2,3], [1,2,3], [1,2,3], [1,2]]
 
 app = Flask(__name__)
+
+@app.route('/donation_page')
+def donation_page():
+    return render_template('donation_page.html')
+
+def login_required(func):
+    @wraps(func)
+    def _wrapped_func(*args, **kwargs):
+        if 'logged_in_user' not in session:
+            return redirect(url_for('login'))
+        else:
+            return func(*args, **kwargs)
+    return _wrapped_func
 
 @app.after_request
 def add_header(r):
@@ -59,6 +74,7 @@ def login():
     return render_template("login.html")
 
 @app.route('/logout')
+@login_required
 def logout():
     del session['logged_in_user']
     return redirect('/')
