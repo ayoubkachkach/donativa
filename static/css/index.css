@@ -21,6 +21,9 @@
     box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.1);
 }
 
-.donation-card{
-     margin-top:20px;
+.paragraph-card{
+    border-top: 1px solid #DDD;
+    margin-top: 10px;
+    padding-top: 10px;
 }
+
