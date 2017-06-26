@@ -9,6 +9,9 @@
 	color:#337ab7;
 }
 
+.details-text{
+	border: 1px solid #DDD; padding: 15px 15px 50px 15px; box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.1);
+}
 /**
  * Oscuro: #283035
  * Azul: #03658c
