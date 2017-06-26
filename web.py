@@ -4,6 +4,7 @@ from passlib.hash import sha256_crypt #encrypting the password
 import forms
 
 users_db = {'demo':sha256_crypt.encrypt('demo')}
+triplets = [[1,2,3], [1,2,3], [1,2,3], [1,2]]
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ def add_header(r):
 # Index and other pages
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("index.html", triplets=triplets)
 
 # Signup
 @app.route('/signup', methods=['GET'])
