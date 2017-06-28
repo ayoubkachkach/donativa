@@ -251,7 +251,7 @@ body {
 .comment-box .comment-name.by-organization, .comment-box .comment-name.by-organization a {color: #03658c;}
 .comment-box .comment-name.by-organization:after {
 	content: 'organization';
-	background: #03658c;
+	background: #c0392b;
 	color: #FFF;
 	font-size: 12px;
 	padding: 3px 5px;
@@ -265,7 +265,7 @@ body {
 .comment-box .comment-name.by-donor, .comment-box .comment-name.by-donor a {color: #03658c;}
 .comment-box .comment-name.by-donor:after {
 	content: 'donor';
-	background: #03658c;
+	background: #2980b9;
 	color: #FFF;
 	font-size: 12px;
 	padding: 3px 5px;
