@@ -72,7 +72,7 @@ def organization_signup():
 @app.route('/login', methods=['GET'])
 def login():
     return render_template("login.html")
-
+    
 @app.route('/logout')
 @login_required
 def logout():
@@ -88,6 +88,12 @@ def login_form():
         return redirect(url_for('index'))
     else:
         return render_template('login.html', error="Wrong credentials!")
+
+#Profile
+@app.route('/profile/<username>', methods=['GET'])
+def profile(username):
+    return render_template("profile.html", username=username)
+
 
 if __name__ == '__main__':
     app.secret_key = 'not-so-secret-key'
