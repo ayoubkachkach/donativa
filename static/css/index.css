@@ -2,7 +2,9 @@
     background: linear-gradient(rgba(255, 255, 255, 0.7), white 75%);
     position: relative;
 }
-
+.btn-lg{
+    background-color:#a1887f ;
+}
 #hero-block:after {
     content: "";
 	background: url(../images/index-photo.png) no-repeat;

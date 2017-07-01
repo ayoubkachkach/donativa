@@ -1,4 +1,3 @@
-
 body, html {
     height: 100%;
     background-repeat: no-repeat;
@@ -44,7 +43,7 @@ hr{
     font-size: 32px;
     font-weight: 100;
     margin-bottom: 10px;
-    color:#e91515;
+    color:#6d4c41;
 }
 
 .card-container.card {
@@ -62,12 +61,12 @@ TO CENTER THE SUBMIT BUTTON
 }
 
 .btn-login{
-    background-color:#FF3B3F;
+    background-color:#a1887f ;
 }
 
 .btn-login:hover,
 .btn-login:active{
-    background-color:#e53737;
+    background-color:#6d4c41;
 }
 
 /*
