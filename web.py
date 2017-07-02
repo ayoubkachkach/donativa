@@ -94,6 +94,10 @@ def login_form():
 def profile(username):
     return render_template("profile.html", username=username)
 
+#TO BE MODIFIED
+@app.route("/donationshistory", methods=['GET','POST'])
+def donationshistory():
+    return render_template("donationshistory.html")
 
 if __name__ == '__main__':
     app.secret_key = 'not-so-secret-key'
