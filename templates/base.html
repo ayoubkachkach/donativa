@@ -8,6 +8,7 @@
   {% endblock %}
 
    <!-- Bootstrap core CSS -->
+   <link href={{url_for('static',filename="font-awesome/css/font-awesome.css")}} rel="stylesheet" />
     <link type="text/css" rel="stylesheet" href={{url_for('static', filename='css/bootstrap.css')}} />
     <link type="text/css" rel="stylesheet" href={{url_for('static', filename='css/style.css')}} />
 
@@ -47,7 +48,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if session.logged_in_user %}
-      	<li><a href="/profile/{{session.logged_in_user}}">{{session.logged_in_user}}</a></li>
+      	<li><a class="username_navbar" href="/profile/{{session.logged_in_user}}">{{session.logged_in_user}}</a></li>
           <!--***********************************NOTIFICATION*********************************************************-->
                 <ul class="nav navbar-nav">
                                 <div class="nav notify-row" id="top_menu">
@@ -67,7 +68,7 @@
                             </li>
                             <li>
                                 <a href="index.html#">
-                                    <span class="photo"><img alt="avatar" src="static/images/ui-zac.jpg"></span>
+                                    <span class="photo"><img alt="avatar" src={{url_for('static', filename="images/ui-zac.jpg")}}></span>
                                     <span class="subject">
                                     <span class="from">Zac Snider</span>
                                     <span class="time">Just now</span>
@@ -79,7 +80,7 @@
                             </li>
                             <li>
                                 <a href="index.html#">
-                                    <span class="photo"><img alt="avatar" src="static/images/ui-divya.jpg"></span>
+                                    <span class="photo"><img alt="avatar" src={{url_for('static', filename="images/ui-divya.jpg")}}></span>
                                     <span class="subject">
                                     <span class="from">Divya Manian</span>
                                     <span class="time">40 mins.</span>
@@ -91,7 +92,7 @@
                             </li>
                             <li>
                                 <a href="index.html#">
-                                    <span class="photo"><img alt="avatar" src="static/images/ui-danro.jpg"></span>
+                                    <span class="photo"><img alt="avatar" src={{url_for('static', filename="images/ui-danro.jpg")}}></span>
                                     <span class="subject">
                                     <span class="from">Dan Rogers</span>
                                     <span class="time">2 hrs.</span>
@@ -103,7 +104,7 @@
                             </li>
                             <li>
                                 <a href="index.html#">
-                                    <span class="photo"><img alt="avatar" src="static/images/ui-sherman.jpg"></span>
+                                    <span class="photo"><img alt="avatar" src={{url_for('static', filename="images/ui-sherman.jpg")}}></span>
                                     <span class="subject">
                                     <span class="from">Dj Sherman</span>
                                     <span class="time">4 hrs.</span>
@@ -141,17 +142,17 @@
     {% block body %}
     {% endblock %}
   </div> <!-- /container -->
-  <script src="{{ url_for('static', filename="js/jquery.min.js") }}"></script>
-  <script src="{{ url_for('static', filename="js/bootstrap.js") }}"></script>
+  <script src={{url_for('static', filename="js/jquery.min.js")}}></script>
+  <script src={{url_for('static', filename="js/bootstrap.js")}}></script>
 
       <!-- js placed at the end of the document so the pages load faster and notifications!-->
-    <script src="static/js/jquery.js"></script>
-    <script src="static/js/jquery-1.8.3.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="static/js/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="static/js/jquery.scrollTo.min.js"></script>
-    <script src="static/js/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="static/js/jquery.sparkline.js"></script>
+    <script src={{url_for('static', filename="js/jquery.js")}}></script>
+    <script src={{url_for('static', filename="js/jquery-1.8.3.min.js")}}></script>
+    <script src={{url_for('static', filename="js/bootstrap.min.js")}}></script>
+    <script class="include" type="text/javascript" src={{url_for('static', filename="js/jquery.dcjqaccordion.2.7.js")}}></script>
+    <script src={{url_for('static', filename="js/jquery.scrollTo.min.js")}} type="text/javascript"></script>
+    <script src={{url_for('static', filename="js/jquery.nicescroll.js")}} type="text/javascript"></script>
+    <script src={{url_for('static', filename="js/jquery.sparkline.js")}}></script>
     
   {% block javascript %}
   {% endblock %}
