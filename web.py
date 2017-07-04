@@ -99,29 +99,13 @@ def logout():
 @app.route('/login_form', methods=['POST'])
 def login_form():
     username = request.form['username']
-    password = request.form['password']
-    # Create cursor
-    cur = mysql.connection.cursor()
-    # Get user by username
-    result = cur.execute("SELECT account_username, account_password FROM ACCOUNTS WHERE account_username = %s ", [username])
-    if result > 0:
-        # Get stored hash
-        data = cur.fetchone()
-        password = data[1]
-        # Compare Passwords
-        if password_candidate == password:
-            # Passed
-            session['logged_in'] = True
-            session['username'] = username
-            return redirect(url_for('index')) 
-        else:
-            return render_template('login.html', error="Wrong credentials!")
-        # Close connection
-        cur.close()
-    else:
-        return render_template('login.html', error="Wrong credentials!")
-        # Close connection
-        cur.close()
+    password_candidate = request.form['password']
+    args = (username, password_candidate)
+    if mysql_connector.login_user(mysql, args) == True:
+        session['logged_in'] = True
+        session['logged_in_user'] = username
+        return(redirect(url_for('index', username=username)))
+    return render_template('login.html', error="Wrong credentials!")
 
 #Profile
 @app.route('/profile/<username>', methods=['GET'])

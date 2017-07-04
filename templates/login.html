@@ -21,7 +21,7 @@
         <h2 class='login_title'><center>Login</center></h2>
         <hr>
             {% if error %}
-                <div class="alert alert-danger">{{error}}</div>
+                <div class="alert alert-danger" style="padding: 8px 8px 8px 8px">{{error}}</div>
             {% endif %}
             <form class="form-signin" action="/login_form" method="POST">
                 <span id="reauth-email" class="reauth-email"></span>
