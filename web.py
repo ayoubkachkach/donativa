@@ -1,6 +1,6 @@
 from flask import Flask, url_for, request, render_template, redirect, session, flash
 from passlib.hash import sha256_crypt #encrypting the password
-
+from flask_mysqldb import MySQL
 import forms
 
 from functools import wraps
@@ -9,6 +9,14 @@ users_db = {'demo':sha256_crypt.encrypt('demo')}
 triplets = [[1,2,3], [1,2,3], [1,2,3], [1,2]]
 
 app = Flask(__name__)
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'azerty'
+app.config['MYSQL_DATABASE_PORT'] = '3306'
+app.config['MYSQL_DB'] = 'DONATIVA'
+mysql = MySQL(app)
+# mysql.init_app(app)
 
 @app.route('/donation_page')
 def donation_page():
@@ -83,12 +91,29 @@ def logout():
 def login_form():
     username = request.form['username']
     password = request.form['password']
-    if username in users_db and sha256_crypt.verify(password, users_db[username]):
-        session['logged_in_user'] = username
-        return redirect(url_for('index'))
+    # Create cursor
+    cur = mysql.connection.cursor()
+    # Get user by username
+    result = cur.execute("SELECT * FROM ACCOUNTS WHERE account_username = %s ", [username])
+    if result > 0:
+        # Get stored hash
+        data = cur.fetchone()
+        password = data['password']
+        # Compare Passwords
+        if sha256_crypt.verify(password_candidate, password):
+            # Passed
+            session['logged_in'] = True
+            session['username'] = username
+            return redirect(url_for('index')) 
+        else:
+            return render_template('login.html', error="Wrong credentials!")
+        # Close connection
+        cur.close()
     else:
         return render_template('login.html', error="Wrong credentials!")
-
+        # Close connection
+        cur.close()
+    cur.close()
 #Profile
 @app.route('/profile/<username>', methods=['GET'])
 def profile(username):
