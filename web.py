@@ -14,7 +14,6 @@ app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Epiphonesg1997'
 app.config['MYSQL_DATABASE_PORT'] = '3306'
 app.config['MYSQL_DB'] = 'DONATIVA'
 mysql = MySQL(app)

@@ -66,10 +66,5 @@ BEGIN
 END#
 DELIMITER ;
 -- ********************************************* CREATE DONOR ***********************************
-USE DONATIVA;
-SELECT * FROM DONORS;
-
-CREATE TABLE test(
-	myvar INTEGER
-);
+SELECT * FROM DONOR;
 
