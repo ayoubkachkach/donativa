@@ -1,7 +1,9 @@
 from flask import Flask, url_for, request, render_template, redirect, session, flash
 from passlib.hash import sha256_crypt #encrypting the password
 from flask_mysqldb import MySQL
+
 import forms
+import mysql_connector
 
 from functools import wraps
 
@@ -12,7 +14,7 @@ app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'azerty'
+app.config['MYSQL_PASSWORD'] = 'Epiphonesg1997'
 app.config['MYSQL_DATABASE_PORT'] = '3306'
 app.config['MYSQL_DB'] = 'DONATIVA'
 mysql = MySQL(app)
@@ -53,11 +55,18 @@ def signup():
 def donor_signup():
     form = forms.UserSignupForm(request.form)
     if request.method == 'POST' and form.validate():
-        name = form.name.data
-        email = form.email.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
         username = form.username.data
-        password = sha256_crypt.encrypt(form.password.data)
-        users_db[username] = password
+        password = form.password.data
+        print(len(password))
+        city = form.city.data
+        bio = form.bio.data
+        address = form.address.data
+        phone_number = form.phone_number.data
+        email = form.email.data
+        args = (email, username, password, bio, 1, first_name, last_name, address, city, phone_number)
+        mysql_connector.create_donor(mysql, args)
         flash('You are now registered and can log in', 'success')
         return redirect(url_for('login'))
     return render_template('donor_signup.html', form=form)
@@ -69,7 +78,7 @@ def organization_signup():
         name = form.name.data
         email = form.email.data
         username = form.username.data
-        password = sha256_crypt.encrypt(form.password.data)
+        password = form.password.data
         users_db[username] = password
         flash('You are now registered and can log in', 'success')
         return redirect(url_for('login'))
@@ -94,13 +103,13 @@ def login_form():
     # Create cursor
     cur = mysql.connection.cursor()
     # Get user by username
-    result = cur.execute("SELECT * FROM ACCOUNTS WHERE account_username = %s ", [username])
+    result = cur.execute("SELECT account_username, account_password FROM ACCOUNTS WHERE account_username = %s ", [username])
     if result > 0:
         # Get stored hash
         data = cur.fetchone()
-        password = data['password']
+        password = data[1]
         # Compare Passwords
-        if sha256_crypt.verify(password_candidate, password):
+        if password_candidate == password:
             # Passed
             session['logged_in'] = True
             session['username'] = username
@@ -113,7 +122,7 @@ def login_form():
         return render_template('login.html', error="Wrong credentials!")
         # Close connection
         cur.close()
-    cur.close()
+
 #Profile
 @app.route('/profile/<username>', methods=['GET'])
 def profile(username):
