@@ -19,8 +19,8 @@ CREATE PROCEDURE createDonor(
 BEGIN
     if ( select exists (select 1 from ACCOUNTS where account_username = a_username 
         OR account_email = a_email) ) THEN
-     
-        select 'Error. The Username you specified already exists.';
+        
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Username or Email already exists.';
      
     ELSE
      
@@ -66,5 +66,4 @@ BEGIN
 END#
 DELIMITER ;
 -- ********************************************* CREATE DONOR ***********************************
-SELECT * FROM DONOR;
 

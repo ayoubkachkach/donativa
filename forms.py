@@ -1,5 +1,5 @@
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
-
+import mysql_connector
 
 class UserSignupForm(Form):
     first_name = StringField('First Name', [validators.Length(min=1, max=15)])

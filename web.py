@@ -58,7 +58,6 @@ def donor_signup():
         last_name = form.last_name.data
         username = form.username.data
         password = form.password.data
-        print(len(password))
         city = form.city.data
         bio = form.bio.data
         address = form.address.data
