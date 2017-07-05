@@ -109,7 +109,7 @@ def login_form():
 #Profile
 @app.route('/profile/<username>', methods=['GET'])
 def profile(username):
-    return render_template("profile.html", username=username)
+    return render_template("profile.html")
 
 #TO BE MODIFIED
 @app.route("/donationshistory", methods=['GET','POST'])
