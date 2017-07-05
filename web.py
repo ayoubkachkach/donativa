@@ -112,8 +112,8 @@ def profile(username):
     return render_template("profile.html", triplets=triplets)
 
 #TO BE MODIFIED
-@app.route("/donationshistory", methods=['GET','POST'])
-def donationshistory():
+@app.route('/donations_history/<username>', methods=['GET','POST'])
+def donationshistory(username):
     return render_template("donationshistory.html")
 
 if __name__ == '__main__':

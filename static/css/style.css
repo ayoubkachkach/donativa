@@ -298,8 +298,8 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     border-top-color: #FCB322 !important;
 }
 .notify-arrow-green {
-    border-color: transparent transparent #68dff0;
-    border-bottom-color: #68dff0 !important;
+    border-color: transparent transparent #337ab7 ;
+    border-bottom-color: #337ab7  !important;
     border-top-color: #68dff0 !important;
 }
 
