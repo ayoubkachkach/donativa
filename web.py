@@ -109,11 +109,11 @@ def login_form():
 #Profile
 @app.route('/profile/<username>', methods=['GET'])
 def profile(username):
-    return render_template("profile.html")
+    return render_template("profile.html", username=username)
 
 #TO BE MODIFIED
-@app.route("/donationshistory", methods=['GET','POST'])
-def donationshistory():
+@app.route('/donations_history/<username>', methods=['GET','POST'])
+def donationshistory(username):
     return render_template("donationshistory.html")
 
 if __name__ == '__main__':
