@@ -77,10 +77,16 @@ def organization_signup():
         email = form.email.data
         username = form.username.data
         password = form.password.data
-        users_db[username] = password
+        bio = form.bio.data
+        address = form.address.data
+        city = form.city.data
+        phone_number = form.phone_number.data
+        certification_code = form.certification_code.data
+        args = (email, username, password, bio, 2, name, address, city, phone_number, certification_code)
+        mysql_connector.create_organization(mysql, args)
         flash('You are now registered and can log in', 'success')
         return redirect(url_for('login'))
-    return render_template('donor_signup.html', form=form)
+    return render_template('organization_signup.html', form=form)
 
 
 # Authentication

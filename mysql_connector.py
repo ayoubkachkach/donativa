@@ -9,7 +9,15 @@ def create_donor(mysql, args):
         mysql.connection.commit()
     except _mysql_exceptions.OperationalError as e:
         print(e)
-        
+    
+def create_organization(mysql, args):
+    try:
+        cur = mysql.connection.cursor()
+        result_args = cur.callproc('createOrganization', args)
+        cur.close()
+        mysql.connection.commit()
+    except _mysql_exceptions.OperationalError as e:
+        print(e)
 
 def login_user(mysql, args):
     cur = mysql.connection.cursor()

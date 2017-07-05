@@ -33,3 +33,6 @@ class OrganizationSignupForm(Form):
     phone_number = StringField('Phone Number',[
             validators.Regexp('\d{6,}', message="Phone number can only contain 6 or more digits."),
         ])
+    certification_code = StringField('Certification Code', [validators.Length(min=3, max=20)])
+    city = StringField('City', [validators.Length(min=3, max=20)])
+    bio = StringField('Bio', [validators.Length(min=3, max=120)])
