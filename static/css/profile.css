@@ -11,3 +11,17 @@
 	padding-bottom: 10px;
 }
 
+.card {
+    border: 1px solid #DDD;
+    box-shadow: 2px 2px 9px rgba(0, 0, 0, 0.1);
+
+}
+
+.outside-card{
+	width: 800px;
+}
+.thumbnail{
+	width:  250px;
+	height: 250px;
+}
+

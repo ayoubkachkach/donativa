@@ -8,7 +8,7 @@ import mysql_connector
 from functools import wraps
 
 users_db = {'demo':sha256_crypt.encrypt('demo')}
-triplets = [[1,2,3], [1,2,3], [1,2,3], [1,2]]
+triplets = [[1,1], [1,1], [1]]
 
 app = Flask(__name__)
 
@@ -109,7 +109,7 @@ def login_form():
 #Profile
 @app.route('/profile/<username>', methods=['GET'])
 def profile(username):
-    return render_template("profile.html")
+    return render_template("profile.html", triplets=triplets)
 
 #TO BE MODIFIED
 @app.route("/donationshistory", methods=['GET','POST'])

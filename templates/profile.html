@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {%block css%}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/materialize.css") }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="css/index.css") }}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
@@ -16,10 +18,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
 
   <!-- The Grid -->
-  <div class="w3-row-padding">
+  <div class="row">
   
     <!-- Left Column -->
-    <div class="w3-third">
+    <div class="col-md-4">
     
       <div class="w3-white w3-text-grey w3-card-4">
         <div class="w3-display-container">
@@ -39,33 +41,56 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-margin-bottom" style="color:#337ab7;"></i>ex@mail.com</p>
           <p><i class="fa fa-phone fa-fw w3-margin-right w3-large" style="color:#337ab7;"></i>Phone Number</p>
           <hr>
-
           <p class="w3-large"><b><i class="fa fa-address-card-o fa-fw w3-margin-right" style="color:#337ab7;"></i>Bio</b></p>
-          
           <br>
           <hr>
           <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Followers</b></p>
-          
           <br>
           <br>
           <hr>
           <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Follows</b></p>
-          
           <br>
         </div>
       </div><br>
-
     <!-- End Left Column -->
     </div>
 
-    <!-- Right Column -->
-    <div class="w3-twothird my-container">
-    
-      <div class="w3-container w3-card-2 w3-white w3-margin-bottom " >
-        <h2 class=" w3-padding-16"><i class="fa fa-cart-arrow-down fa-fw w3-margin-right w3-xxlarge w3-margin-bottom" style="color:#337ab7;"></i >My Donations 
-        </h2>
-      </div>
-
+    <!-- Start of Right Column -->
+  
+  <div class="col-md-8">
+    <div class="card outside-card">
+      <div class="container">
+        {%for element in triplets%}
+        <div class="row">
+          {%for item in element%}
+            <div class="col-md-4">
+                <div class="inside-card card">
+                  <div class="card-content white-text">
+                  <a href="/donation_page">
+                  <img src="http://www.petsonbroadway.com/wp-content/uploads/2015/07/cat-supplies-portland-09-300x300.jpg" class="thumbnail donation-card">
+                  </a>
+                  <span class="card-title grey-text text-darken-4">Used Sweater and pair of Sneakers</span>
+                    <div class="card__meta">
+                      <a href={{url_for('profile',username='theayoubkach')}} ><span class="glyphicon glyphicon-user"></span> Ayoub Kachkach</a>
+                      <time>17th March </time>
+                    </div>
+                    <span class="blue-text text-darken-2 card-info"><i class="small material-icons">label</i>&nbsp;lindy hop, balboa, charleston</span>
+                  </div>
+                  <div class="card-action">
+                    <a href="#">More details</a>
+                    <a href="#" class="card-action-right">Some other link</a>
+                  </div>
+              </div>
+            </div>
+          {% endfor %}
+          <!-- End of Row -->
+        </div>
+        {% endfor %}
+         <!-- End of Container -->
+      </div> 
+    </div>
+  </div>
+  
 
     <!-- End Right Column -->
     </div>
