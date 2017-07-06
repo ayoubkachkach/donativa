@@ -96,14 +96,14 @@ def organization_signup():
 @app.route('/donation_add', methods=['GET', 'POST'])
 def donation_add():
     form = forms.CreateDonationForm(request.form)
+    toadd = mysql_connector.get_types(mysql)
     form.donation_type.choices = mysql_connector.get_types(mysql)
     if request.method == 'POST' and form.validate():
         title = form.title.data
         description = form.description.data
         donation_type = form.donation_type.data
-        print(donation_type)
         city = form.city.data
-        donation_date = form.dt.data.strftime('%x')
+        donation_date = form.donation_date.data.strftime('%x')
         return render_template('index.html')
     return render_template('donation_add.html', form=form)
         

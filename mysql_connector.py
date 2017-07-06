@@ -41,8 +41,9 @@ def login_user(mysql, args):
 
 def get_types(mysql):
     cur = mysql.connection.cursor()
-    result = cur.execute("SELECT DISTINCT type_id, type_name FROM OFFER_TYPES")
+    result = cur.execute("SELECT * FROM OFFER_TYPES", [])
     data = cur.fetchall()
     choices = [(g[0], g[1]) for g in data]
+    cur.close()
     return choices
 
