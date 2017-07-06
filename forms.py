@@ -1,4 +1,6 @@
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators, DateField, SelectField
+from datetime import date
+
 import mysql_connector
 
 class UserSignupForm(Form):
@@ -36,4 +38,12 @@ class OrganizationSignupForm(Form):
     certification_code = StringField('Certification Code', [validators.Length(min=3, max=20)])
     city = StringField('City', [validators.Length(min=3, max=20)])
     bio = StringField('Bio', [validators.Length(min=3, max=120)])
+
+
+class CreateDonationForm(Form):
+    title=StringField('Title', [validators.Length(min=1, max=80)])
+    description=  StringField('Description', [validators.Length(min=4, max=120)])
+    city = StringField('City', [validators.Length(min=1, max=40)])
+    donation_date = DateField("Offer's Expiration Date", format="%m/%d/%Y")
+    donation_type = SelectField(u'Offer Type', coerce=int)
     

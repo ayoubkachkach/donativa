@@ -17,7 +17,12 @@
 
     <p>With Donativa, donate your unused items to the people that need it the most through our certified charity partners. Free space in your house, give your items a second life, and help your community!</p>
     <p>
+       {%if session['logged_in'] == False %}
       <a class="btn btn-lg btn-primary" href="/signup" role="button">Join the movement!</a>
+      {%endif%}
+      {%if session['logged_in'] == True and session['type']==1%}
+      <a class="btn btn-lg btn-primary" href="/donation_add" role="button">Add a donation!</a>
+      {%endif%}
     </p>
   </div>
   <h2>Latest Donations: </h2>

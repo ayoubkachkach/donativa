@@ -2,14 +2,13 @@ from flask import Flask, url_for, request, render_template, redirect, session, f
 from passlib.hash import sha256_crypt #encrypting the password
 from flask_mysqldb import MySQL
 
-import helpers
 import forms
 import mysql_connector
 
 from functools import wraps
 
 users_db = {'demo':sha256_crypt.encrypt('demo')}
-mylist = [1, 1, 1, 1, 1, 1]
+triplets = [[1,1], [1,1], [1]]
 
 app = Flask(__name__)
 
@@ -44,7 +43,6 @@ def add_header(r):
 # Index and other pages
 @app.route('/')
 def index():
-    triplets= helpers.group_list(mylist, 3)
     return render_template("index.html", triplets=triplets)
 
 # Signup
@@ -60,16 +58,16 @@ def donor_signup():
         last_name = form.last_name.data
         username = form.username.data
         password = form.password.data
+        print(len(password))
         city = form.city.data
         bio = form.bio.data
         address = form.address.data
         phone_number = form.phone_number.data
         email = form.email.data
         args = (email, username, password, bio, 1, first_name, last_name, address, city, phone_number)
-        if mysql_connector.create_donor(mysql, args) == True:
-            return redirect(url_for('login'))
-        else:
-            return render_template('donor_signup.html', error="Username or email already exists!",form=form)
+        mysql_connector.create_donor(mysql, args)
+        flash('You are now registered and can log in', 'success')
+        return redirect(url_for('login'))
     return render_template('donor_signup.html', form=form)
 
 @app.route('/signup/organization_signup', methods=['GET', 'POST'])
@@ -80,33 +78,10 @@ def organization_signup():
         email = form.email.data
         username = form.username.data
         password = form.password.data
-        bio = form.bio.data
-        address = form.address.data
-        city = form.city.data
-        phone_number = form.phone_number.data
-        certification_code = form.certification_code.data
-        args = (email, username, password, bio, 2, name, address, city, phone_number, certification_code)
-        if mysql_connector.create_organization(mysql, args) == True:
-            return redirect(url_for('login'))
-        else:
-            return render_template('organization_signup.html', form=form, error="Username or email already exists!")
-        
-    return render_template('organization_signup.html',form=form)
-
-@app.route('/donation_add', methods=['GET', 'POST'])
-def donation_add():
-    form = forms.CreateDonationForm(request.form)
-    form.donation_type.choices = mysql_connector.get_types(mysql)
-    if request.method == 'POST' and form.validate():
-        title = form.title.data
-        description = form.description.data
-        donation_type = form.donation_type.data
-        print(donation_type)
-        city = form.city.data
-        donation_date = form.dt.data.strftime('%x')
-        return render_template('index.html')
-    return render_template('donation_add.html', form=form)
-        
+        users_db[username] = password
+        flash('You are now registered and can log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('donor_signup.html', form=form)
 
 
 # Authentication
@@ -125,19 +100,20 @@ def login_form():
     username = request.form['username']
     password_candidate = request.form['password']
     args = (username, password_candidate)
-    result = mysql_connector.login_user(mysql, args)
-    if result[0] == True:
+    if mysql_connector.login_user(mysql, args) == True:
         session['logged_in'] = True
         session['logged_in_user'] = username
-        session['type'] = result[1]
         return(redirect(url_for('index', username=username)))
     return render_template('login.html', error="Wrong credentials!")
 
 #Profile
 @app.route('/profile/<username>', methods=['GET'])
 def profile(username):
-    triplets= helpers.group_list(mylist, 2)
+<<<<<<< HEAD
     return render_template("profile.html", triplets=triplets)
+=======
+    return render_template("profile.html", username=username)
+>>>>>>> 7f199933ae782c72ec9a437eb82cd907ba2e0b2f
 
 #TO BE MODIFIED
 @app.route('/donations_history/<username>', methods=['GET','POST'])
