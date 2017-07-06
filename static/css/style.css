@@ -15,7 +15,10 @@ Premium: http://www.gridgum.com
 
 /* BASIC THEME CONFIGURATION */
 
-
+.success-popup  {
+    transition: .3s ease all;
+    font-family: 'Roboto', sans-serif;
+}
 
 /*sidebar navigation*/
 

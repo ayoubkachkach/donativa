@@ -67,7 +67,7 @@ END#
 DELIMITER ;
 -- ********************************************* CREATE DONOR ***********************************
 -- ********************************************* CREATE ORGANIZATION ***********************************
-DROP PROCEDURE IF EXISTS createDonor;
+DROP PROCEDURE IF EXISTS createOrganization;
 DELIMITER #
 CREATE PROCEDURE createOrganization(
     IN a_email VARCHAR(30),

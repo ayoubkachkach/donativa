@@ -7,8 +7,10 @@ def create_donor(mysql, args):
         result_args = cur.callproc('createDonor', args)
         cur.close()
         mysql.connection.commit()
+        return True
     except _mysql_exceptions.OperationalError as e:
-        print(e)
+        print(e) 
+        return False
     
 def create_organization(mysql, args):
     try:
@@ -16,8 +18,10 @@ def create_organization(mysql, args):
         result_args = cur.callproc('createOrganization', args)
         cur.close()
         mysql.connection.commit()
+        return True
     except _mysql_exceptions.OperationalError as e:
         print(e)
+        return False
 
 def login_user(mysql, args):
     cur = mysql.connection.cursor()

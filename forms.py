@@ -36,3 +36,4 @@ class OrganizationSignupForm(Form):
     certification_code = StringField('Certification Code', [validators.Length(min=3, max=20)])
     city = StringField('City', [validators.Length(min=3, max=20)])
     bio = StringField('Bio', [validators.Length(min=3, max=120)])
+    

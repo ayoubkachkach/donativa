@@ -64,9 +64,10 @@ def donor_signup():
         phone_number = form.phone_number.data
         email = form.email.data
         args = (email, username, password, bio, 1, first_name, last_name, address, city, phone_number)
-        mysql_connector.create_donor(mysql, args)
-        flash('You are now registered and can log in', 'success')
-        return redirect(url_for('login'))
+        if mysql_connector.create_donor(mysql, args) == True:
+            return redirect(url_for('login'))
+        else:
+            return render_template('donor_signup.html', error="Username or email already exists!",form=form)
     return render_template('donor_signup.html', form=form)
 
 @app.route('/signup/organization_signup', methods=['GET', 'POST'])
@@ -83,10 +84,12 @@ def organization_signup():
         phone_number = form.phone_number.data
         certification_code = form.certification_code.data
         args = (email, username, password, bio, 2, name, address, city, phone_number, certification_code)
-        mysql_connector.create_organization(mysql, args)
-        flash('You are now registered and can log in', 'success')
-        return redirect(url_for('login'))
-    return render_template('organization_signup.html', form=form)
+        if mysql_connector.create_organization(mysql, args) == True:
+            return redirect(url_for('login'))
+        else:
+            return render_template('organization_signup.html', form=form, error="Username or email already exists!")
+        
+    return render_template('organization_signup.html',form=form)
 
 
 # Authentication
