@@ -14,8 +14,10 @@ INSERT INTO ORGANIZATIONS (account_id, organization_name, organization_address, 
         
 SELECT * FROM ACCOUNTS;
 
+DELETE FROM OFFER_TYPES WHERE type_id >= 0;
 INSERT INTO OFFER_TYPES(type_name) VALUES('Clothing');
 INSERT INTO OFFER_TYPES(type_name) VALUES('Food');
 INSERT INTO OFFER_TYPES(type_name) VALUES('Entertainment');
 INSERT INTO OFFER_TYPES(type_name) VALUES('Education');
 INSERT INTO OFFER_TYPES(type_name) VALUES('Misc.');
+COMMIT;
