@@ -104,7 +104,7 @@ def donation_add():
         donation_type = form.donation_type.data
         city = form.city.data
         donation_date = form.donation_date.data.strftime('%x')
-        return render_template('index.html')
+        return redirect(url_for('index'))
     return render_template('donation_add.html', form=form)
         
 
