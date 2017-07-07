@@ -12,9 +12,14 @@ INSERT INTO ACCOUNTS(account_email,account_username,account_password,account_dat
 INSERT INTO ORGANIZATIONS (account_id, organization_name, organization_address, organization_city, organization_phone_number, organization_certification_code)
 		VALUES (3, 'Bayti', '23 rt', 'Rabat', '0566666666', '43-23');
         
-SELECT * FROM ACCOUNTS;
+SELECT 
+    *
+FROM
+    ACCOUNTS;
 
-DELETE FROM OFFER_TYPES WHERE type_id >= 0;
+DELETE FROM OFFER_TYPES 
+WHERE
+    type_id >= 0;
 INSERT INTO OFFER_TYPES(type_name) VALUES('Clothing');
 INSERT INTO OFFER_TYPES(type_name) VALUES('Food');
 INSERT INTO OFFER_TYPES(type_name) VALUES('Entertainment');

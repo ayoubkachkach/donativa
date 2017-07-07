@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {%block css%}
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href={{url_for('static', filename="css/donation_add.css")}}>
 {%endblock%}
 {% block body %}
 
-<h1>Add Donation for Donativa</h1>
+<h1 class="title">Add Donation for Donativa</h1>
 {% from "includes/_formhelpers.html" import render_field %}
 <form method="POST" action="">
   <div class="form-group">
