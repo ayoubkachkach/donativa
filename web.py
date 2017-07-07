@@ -102,7 +102,6 @@ def organization_signup():
 @app.route('/donation_add', methods=['GET', 'POST'])
 def donation_add():
     form = forms.CreateDonationForm(request.form)
-    toadd = mysql_connector.get_types(mysql)
     form.donation_type.choices = mysql_connector.get_types(mysql)
     if request.method == 'POST' and form.validate():
         title = form.title.data
@@ -110,15 +109,13 @@ def donation_add():
         donation_type = form.donation_type.data
         city = form.city.data
         donation_date = form.donation_date.data.strftime('%x')
-        file = request.files['file']
-        if file.filename == '':
-            upload_error='No selected file'
-            return redirect(request.url, upload_error=upload_error)
-        else:
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            print("YEAAASOIFHASFHAOKHOKH "(title,description,donation_type,city,donation_date, filename))
-            return render_template('login.html')
+        f = form.upload_file.data
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(
+            app.instance_path, 'static', 'photos', 'donations', filename
+        ))
+        print("YEAAASOIFHASFHAOKHOKH " + (title,description,donation_type,city,donation_date, filename))
+        return redirect(url_for('static', 'login'))
     return render_template('donation_add.html', form=form)
         
 

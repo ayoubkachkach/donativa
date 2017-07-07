@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators, DateField, SelectField
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators, DateField, SelectField, FileField
 from datetime import date
 
 import mysql_connector
@@ -48,3 +48,5 @@ class CreateDonationForm(Form):
     city = StringField('City', [validators.Length(min=1, max=40)])
     donation_date = DateField("Offer's Expiration Date", format="%m/%d/%Y")
     donation_type = SelectField(u'Offer Type', coerce=int)
+    file_upload = FileField(validators=[])
+
