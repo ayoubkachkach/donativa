@@ -8,6 +8,10 @@
 <h1 class="title">Add Donation for Donativa</h1>
 {% from "includes/_formhelpers.html" import render_field %}
 <form method="POST" action="">
+  <form method=post enctype=multipart/form-data>
+    <p><input type=file name=file>
+        <input type=submit value=Upload>
+  </form>
   <div class="form-group">
     {{render_field(form.title, class_="form-control")}}
   </div>
@@ -18,16 +22,20 @@
     {{render_field(form.donation_type, class_="form-control")}}
   </div>
   <div class="form-group">
+    {{render_field(form.address, class_="form-control")}}
+  </div>
+  <div class="form-group">
     {{render_field(form.city, class_="form-control")}}
   </div>
   {% if error %}
                 <div class="alert alert-danger" style="padding: 8px 8px 8px 8px">{{error}}</div>
   {% endif %}
+  <strong><p style='font-size=22px;'>Offer's Expiration Date</p></strong>
   <div>
     {{ form.donation_date(class="dtpick") }}
-    <button type="submit">Go</button>
+    
   </div>
-  <p><input type="submit" class="btn btn-primary" value="Submit"></p>
+  <p><input type="submit" class="btn btn-primary submit-btn" value="Submit"></p>
 </form>
 {% endblock %}
 

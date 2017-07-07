@@ -47,3 +47,9 @@ def get_types(mysql):
     cur.close()
     return choices
 
+def add_donation(mysql, args):
+
+    cur = mysql.connection.cursor()
+    result_args = cur.callproc('createDonation', args)
+    cur.close()
+    mysql.connection.commit()

@@ -41,9 +41,10 @@ class OrganizationSignupForm(Form):
 
 
 class CreateDonationForm(Form):
+    picture = StringField('Donation Picture', [validators.Length(min=1, max=40)])
     title=StringField('Title', [validators.Length(min=1, max=80)])
     description=  StringField('Description', [validators.Length(min=4, max=120)])
+    address = StringField('Address', [validators.Length(min=1, max=80)])
     city = StringField('City', [validators.Length(min=1, max=40)])
     donation_date = DateField("Offer's Expiration Date", format="%m/%d/%Y")
     donation_type = SelectField(u'Offer Type', coerce=int)
-    

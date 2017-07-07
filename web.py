@@ -1,6 +1,7 @@
 from flask import Flask, url_for, request, render_template, redirect, session, flash
 from passlib.hash import sha256_crypt #encrypting the password
 from flask_mysqldb import MySQL
+from werkzeug.utils import secure_filename
 
 import helpers
 import forms
@@ -8,10 +9,12 @@ import mysql_connector
 
 from functools import wraps
 
+
 users_db = {'demo':sha256_crypt.encrypt('demo')}
 mylist = [1, 1, 1, 1, 1, 1]
-
 app = Flask(__name__)
+with app.test_request_context():
+    app.config['UPLOAD_FOLDER'] = url_for('static', filename="/uploads/")
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -46,6 +49,9 @@ def add_header(r):
 def index():
     triplets= helpers.group_list(mylist, 3)
     return render_template("index.html", triplets=triplets)
+
+
+
 
 # Signup
 @app.route('/signup', methods=['GET'])
@@ -104,7 +110,15 @@ def donation_add():
         donation_type = form.donation_type.data
         city = form.city.data
         donation_date = form.donation_date.data.strftime('%x')
-        return redirect(url_for('index'))
+        file = request.files['file']
+        if file.filename == '':
+            upload_error='No selected file'
+            return redirect(request.url, upload_error=upload_error)
+        else:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            print("YEAAASOIFHASFHAOKHOKH "(title,description,donation_type,city,donation_date, filename))
+            return render_template('login.html')
     return render_template('donation_add.html', form=form)
         
 
