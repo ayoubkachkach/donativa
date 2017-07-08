@@ -106,16 +106,11 @@ def donation_add():
     if request.method == 'POST' and form.validate():
         title = form.title.data
         description = form.description.data
-        donation_type = form.donation_type.data
         city = form.city.data
-        donation_date = form.donation_date.data.strftime('%x')
-        f = form.upload_file.data
-        filename = secure_filename(f.filename)
-        f.save(os.path.join(
-            app.instance_path, 'static', 'photos', 'donations', filename
-        ))
-        print("YEAAASOIFHASFHAOKHOKH " + (title,description,donation_type,city,donation_date, filename))
-        return redirect(url_for('static', 'login'))
+        donation_type = form.donation_type.data
+        donation_date = form.donation_date.data
+        print(title, description, city, donation_type, donation_date)
+        return redirect(url_for('login'))
     return render_template('donation_add.html', form=form)
         
 
