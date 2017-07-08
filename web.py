@@ -156,7 +156,11 @@ def profile(username):
 #TO BE MODIFIED
 @app.route('/donations_history/<username>', methods=['GET','POST'])
 def donationshistory(username):
-    return render_template("donationshistory.html")
+    args = 1 #session[account_id]
+    myrequests = mysql_connector.get_requests(mysql,args)
+    for j in myrequests:
+        print (j[0], j[1])
+    return render_template("donationshistory.html", requests_display=myrequests)
 
 if __name__ == '__main__':
     app.secret_key = 'not-so-secret-key'
