@@ -201,9 +201,9 @@ CREATE PROCEDURE get_requests (
     IN a_id INTEGER
 )
 BEGIN
-    SELECT ORG.organization_name, ORG.organization_picture, OFF.offer_description 
-    FROM REQUESTS R INNER JOIN ORGANIZATIONS ORG ON R.account_id = ORG.account_id
-    INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id
-    WHERE R.request_status = 0;
+ SELECT ORG.organization_name, ORG.organization_picture, OFF.offer_title 
+ FROM REQUEST R INNER JOIN ORGANIZATIONS ORG ON R.account_id = ORG.account_id 
+ INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id 
+ WHERE R.request_status = 0 AND OFF.account_id = a_id;
 END#
 DELIMITER ;

@@ -48,7 +48,9 @@ def add_header(r):
 @app.route('/')
 def index():
     triplets= helpers.group_list(mylist, 3)
-    return render_template("index.html", triplets=triplets)
+    args = 1 #session['account_id']
+    n_requests = mysql_connector.get_number_requests(mysql,args)
+    return render_template("index.html", triplets=triplets, n_requests=n_requests )
 
 
 
