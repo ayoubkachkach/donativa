@@ -50,7 +50,7 @@ def index():
     triplets= helpers.group_list(mylist, 3)
     args = 1 #session['account_id']
     n_requests = mysql_connector.get_number_requests(mysql,args)
-    return render_template("index.html", triplets=triplets, n_requests=n_requests )
+    return render_template("index.html", triplets=triplets, n_requests=n_requests[0][0] )
 
 
 
@@ -152,8 +152,6 @@ def profile(username):
 def donationshistory(username):
     args = 1 #session[account_id]
     myrequests = mysql_connector.get_requests(mysql,args)
-    for j in myrequests:
-        print (j[0], j[1])
     return render_template("donationshistory.html", requests_display=myrequests)
 
 if __name__ == '__main__':
