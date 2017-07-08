@@ -60,6 +60,7 @@ def get_requests(mysql, a_id):
     myrequests = [(r[0], r[1], r[2]) for r in data]
     cur.close()
     return myrequests
+    
 def get_number_requests (mysql, a_id):
     cur = mysql.connection.cursor()
     cur.execute("SELECT COUNT(R.account_id) FROM REQUEST R INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id WHERE OFF.account_id = %s;",[a_id])

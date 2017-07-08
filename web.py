@@ -2,6 +2,7 @@ from flask import Flask, url_for, request, render_template, redirect, session, f
 from passlib.hash import sha256_crypt #encrypting the password
 from flask_mysqldb import MySQL
 from werkzeug.utils import secure_filename
+import os
 
 import helpers
 import forms
@@ -14,7 +15,8 @@ users_db = {'demo':sha256_crypt.encrypt('demo')}
 mylist = [1, 1, 1, 1, 1, 1]
 app = Flask(__name__)
 with app.test_request_context():
-    app.config['UPLOAD_FOLDER'] = url_for('static', filename="/uploads/")
+    app.config['UPLOAD_FOLDER_ACCOUNTS'] = "static/accounts/"
+    app.config['UPLOAD_FOLDER_DONATIONS'] = "static/donations/"
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -111,7 +113,17 @@ def donation_add():
         city = form.city.data
         donation_type = form.donation_type.data
         donation_date = form.donation_date.data
-        print(title, description, city, donation_type, donation_date)
+        if 'file' not in request.files:
+            print('No file part!')
+        file = request.files['file']
+        if file.filename == '':
+            filename = 'none.jpg'
+        if file and helpers.allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            print(title, description, city, donation_type, donation_date, filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], filename)
+            helpers.ensure_dir(file_path)
+            file.save(file_path)
         return redirect(url_for('login'))
     return render_template('donation_add.html', form=form)
         

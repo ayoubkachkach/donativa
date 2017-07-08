@@ -47,5 +47,4 @@ class CreateDonationForm(Form):
     city = StringField('City', [validators.Length(min=1, max=40)])
     donation_date = DateField("Offer's Expiration Date", format="%m/%d/%Y")
     donation_type = SelectField('Offer Type', coerce=int)
-    #file_upload = FileField(validators=[])
 
