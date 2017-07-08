@@ -48,7 +48,9 @@ def add_header(r):
 @app.route('/')
 def index():
     triplets= helpers.group_list(mylist, 3)
-    return render_template("index.html", triplets=triplets)
+    args = 1 #session['account_id']
+    n_requests = mysql_connector.get_number_requests(mysql,args)
+    return render_template("index.html", triplets=triplets, n_requests=n_requests )
 
 
 
@@ -148,7 +150,11 @@ def profile(username):
 #TO BE MODIFIED
 @app.route('/donations_history/<username>', methods=['GET','POST'])
 def donationshistory(username):
-    return render_template("donationshistory.html")
+    args = 1 #session[account_id]
+    myrequests = mysql_connector.get_requests(mysql,args)
+    for j in myrequests:
+        print (j[0], j[1])
+    return render_template("donationshistory.html", requests_display=myrequests)
 
 if __name__ == '__main__':
     app.secret_key = 'not-so-secret-key'
