@@ -37,11 +37,21 @@ INSERT INTO REQUEST (account_id, offer_id, request_status, request_date)
                 
 COMMIT;
             
-SELECT * FROM ACCOUNTS;
-SELECT * FROM OFFERS;
-SELECT * FROM REQUEST;
+DELETE FROM ACCOUNTS WHERE account_id > 0;
+DELETE FROM ORGANIZATIONS WHERE account_id > 0;
+DELETE FROM DONORS WHERE account_id > 0;
+DELETE  FROM OFFERS WHERE offer_id > 0;
+DELETE  FROM REQUEST WHERE request_id > 0;
 
- SELECT ORG.organization_name, ORG.organization_picture, OFF.offer_title FROM REQUEST R INNER JOIN ORGANIZATIONS ORG ON R.account_id = ORG.account_id INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id WHERE R.request_status = 0 AND OFF.account_id = 1;
+SELECT * FROM OFFERS;
+ALTER TABLE ACCOUNTS AUTO_INCREMENT=100;
+SELECT ORG.organization_name, ORG.organization_picture, OFF.offer_title FROM REQUEST R INNER JOIN ORGANIZATIONS ORG ON R.account_id = ORG.account_id INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id WHERE R.request_status = 0 AND OFF.account_id = 1;
+
+SELECT COUNT(R.account_id) 
+FROM REQUEST R INNER JOIN OFFERS OFF
+ON R.offer_id = OFF.offer_id
+WHERE OFF.account_id = 1;
+
 
 DELETE FROM OFFER_TYPES 
 WHERE

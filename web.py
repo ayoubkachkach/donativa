@@ -52,7 +52,8 @@ def index():
     triplets= helpers.group_list(mylist, 3)
     args = 1 #session['account_id']
     n_requests = mysql_connector.get_number_requests(mysql,args)
-    return render_template("index.html", triplets=triplets, n_requests=n_requests[0][0] )
+    myrequests = mysql_connector.get_requests(mysql,args)
+    return render_template("index.html", triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0] )
 
 
 
@@ -125,7 +126,10 @@ def donation_add():
             file.save(file_path)
         mysql_connector.add_donation()
         return redirect(url_for('login'))
-    return render_template('donation_add.html', form=form)
+    args = 1 #session account_id
+    myrequests = mysql_connector.get_requests(mysql,args)
+    n_requests = mysql_connector.get_number_requests(mysql,args)
+    return render_template('donation_add.html', form=form,myrequests=myrequests ,n_requests=n_requests[0][0])
         
 
 
@@ -158,14 +162,18 @@ def login_form():
 @app.route('/profile/<username>', methods=['GET'])
 def profile(username):
     triplets= helpers.group_list(mylist, 2)
-    return render_template("profile.html", triplets=triplets)
+    args = 1 #session account_id
+    myrequests = mysql_connector.get_requests(mysql,args) 
+    n_requests = mysql_connector.get_number_requests(mysql,args)
+    return render_template("profile.html", triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0])
 
 #TO BE MODIFIED
 @app.route('/donations_history/<username>', methods=['GET','POST'])
 def donationshistory(username):
     args = 1 #session[account_id]
     myrequests = mysql_connector.get_requests(mysql,args)
-    return render_template("donationshistory.html", requests_display=myrequests)
+    n_requests = mysql_connector.get_number_requests(mysql,args)
+    return render_template("donationshistory.html", myrequests=myrequests, n_requests=n_requests[0][0])
 
 if __name__ == '__main__':
     app.secret_key = 'not-so-secret-key'
