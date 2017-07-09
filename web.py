@@ -111,19 +111,19 @@ def donation_add():
         title = form.title.data
         description = form.description.data
         city = form.city.data
+        address = form.address.data
         donation_type = form.donation_type.data
         donation_date = form.donation_date.data
-        if 'file' not in request.files:
-            print('No file part!')
         file = request.files['file']
         if file.filename == '':
             filename = 'none.jpg'
         if file and helpers.allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            print(title, description, city, donation_type, donation_date, filename)
+            args = (title, description, city, donation_type, donation_date, address, filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], filename)
             helpers.ensure_dir(file_path)
             file.save(file_path)
+        mysql_connector.add_donation()
         return redirect(url_for('login'))
     return render_template('donation_add.html', form=form)
         
