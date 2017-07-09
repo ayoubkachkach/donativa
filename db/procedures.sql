@@ -128,7 +128,7 @@ BEGIN
     END IF;
 END#
 DELIMITER ;
-
+USE DONATIVA;
 DROP PROCEDURE IF EXISTS createOffer;
 DELIMITER #
 CREATE PROCEDURE createOffer(
@@ -151,7 +151,8 @@ BEGIN
             offer_type_id,
             offer_expiration_date,
             offer_address,
-            offer_picture
+            offer_picture,
+            offer_date
         )
         values
         (
@@ -162,7 +163,8 @@ BEGIN
 			o_type,
 			o_date,
 			o_address,
-			o_picture 
+			o_picture,
+            NOW()
         );
         
 		SELECT LAST_INSERT_ID();
