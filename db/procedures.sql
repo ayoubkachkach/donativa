@@ -1,6 +1,5 @@
 
 USE DONATIVA;
-
 -- ********************************************* CREATE DONOR ***********************************
 -- Donor picture needs to be handled
 DROP PROCEDURE IF EXISTS createDonor;
@@ -66,7 +65,6 @@ BEGIN
     END IF;
 END#
 DELIMITER ;
--- ********************************************* CREATE DONOR ***********************************
 -- ********************************************* CREATE ORGANIZATION ***********************************
 DROP PROCEDURE IF EXISTS createOrganization;
 DELIMITER #
@@ -133,77 +131,41 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS createOffer;
 DELIMITER #
-CREATE PROCEDURE createOrganization(
+CREATE PROCEDURE createOffer(
     IN account_id INTEGER,
-    IN a_username VARCHAR(15),
-    IN a_password VARCHAR(30),
-    IN a_bio VARCHAR(120),
-    IN a_type INTEGER,
-    IN o_name VARCHAR(80),
-    IN o_address VARCHAR(30),
-    IN o_city VARCHAR(20),
-    IN o_phone_number VARCHAR(15),
-    IN o_certification_code VARCHAR(20)
+    IN o_title VARCHAR(80),
+    IN o_description VARCHAR(120),
+    IN o_city VARCHAR(40),
+    IN o_type INTEGER,
+    IN o_date DATE,
+    IN o_address VARCHAR(80),
+    IN o_picture VARCHAR(60),
+    OUT o_id INTEGER
 )
 BEGIN
-    if  ( select exists (select 1 from ACCOUNTS where account_username = a_username 
-        OR account_email = a_email) ) THEN
-        
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Username or Email already exists.';
-     
-    ELSE
-        insert into ACCOUNTS
-        (
-            account_email,
-            account_username,
-            account_password,
-            account_date,
-            account_bio,
-            account_type
-        )
-        values
-        (
-            a_email,
-            a_username,
-            a_password,
-            CURDATE(),
-            a_bio,
-            a_type
-        );
-        set @id := (SELECT account_id FROM ACCOUNTS WHERE account_username=a_username);
-        insert into ORGANIZATIONS
+        insert into OFFERS
         (
             account_id,
-            organization_name,
-            organization_address,
-            organization_city,
-            organization_phone_number,
-            organization_certification_code
+            offer_title,
+            offer_description,            
+            offer_city,
+            offer_type_id,
+            offer_expiration_date,
+            offer_address,
+            offer_picture
         )
         values
         (
-            @id,
-            o_name,
-            o_address,
-            o_city,
-            o_phone_number,
-            o_certification_code
+			account_id,
+			o_title,
+			o_description,
+			o_city,
+			o_type,
+			o_date,
+			o_address,
+			o_picture 
         );
-     
-    END IF;
-END#
-DELIMITER ;
--- ********************************************* GET REQUESTS ***********************************
-DROP PROCEDURE IF EXISTS get_requests;
-DELIMITER #
-
-CREATE PROCEDURE get_requests (
-    IN a_id INTEGER
-)
-BEGIN
- SELECT ORG.organization_name, ORG.organization_picture, OFF.offer_title 
- FROM REQUEST R INNER JOIN ORGANIZATIONS ORG ON R.account_id = ORG.account_id 
- INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id 
- WHERE R.request_status = 0 AND OFF.account_id = a_id;
+        
+        SET o_id = LAST_INSERT_ID();
 END#
 DELIMITER ;

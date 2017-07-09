@@ -49,7 +49,7 @@ def get_types(mysql):
 
 def add_donation(mysql, args):
     cur = mysql.connection.cursor()
-    result_args = cur.callproc('createDonation', args)
+    result_args = cur.callproc('createOffer', args)
     cur.close()
     mysql.connection.commit()
 
