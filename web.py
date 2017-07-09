@@ -114,13 +114,14 @@ def donation_add():
         city = form.city.data
         address = form.address.data
         donation_type = form.donation_type.data
-        donation_date = form.donation_date.data
+        donation_date = form.donation_date.data.strftime('%y-%m-%d')
+
         file = request.files['file']
         if file.filename == '':
             filename = 'none.jpg'
         if file and helpers.allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            args = (title, description, city, donation_type, donation_date, address, filename)
+            args = (session['account_id'], title, description, city, donation_type, donation_date, address, filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], filename)
             helpers.ensure_dir(file_path)
             file.save(file_path)
