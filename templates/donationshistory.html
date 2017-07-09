@@ -14,9 +14,10 @@
 			<h5 style="color: grey;">{% print(j[0]) %}</h5>
 			</div>
 			<div class="col-md-4">
-				<br/><br/><button type="button" class="btn btn-success">Accept</button>
-				<button type="button" class="btn btn-danger">Reject</button>
-
+				<form method="GET" action="/donations_request_process/{%j[3]%}">
+					<br/><br/><button type="button" class="btn btn-success">Accept</button>
+					<button type="button" class="btn btn-danger">Reject</button>
+				</form>
 			</div>
 		</div>
 		<hr>
