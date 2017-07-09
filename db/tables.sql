@@ -113,18 +113,17 @@ CREATE TABLE DONATIONS_ARCHIVE (
 );
 
 
-
+DROP TABLE IF EXISTS REQUEST;
 CREATE TABLE REQUEST (
-    request_id INTEGER AUTO_INCREMENT,
     account_id INTEGER,
     FOREIGN KEY (account_id)
         REFERENCES ORGANIZATIONS (account_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (request_id , account_id),
     offer_id INTEGER NOT NULL,
     FOREIGN KEY (offer_id)
         REFERENCES OFFERS (offer_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
+	PRIMARY KEY (offer_id , account_id),
     request_status INTEGER DEFAULT 0,
     request_date DATETIME
 );
