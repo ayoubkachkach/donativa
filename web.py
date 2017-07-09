@@ -169,12 +169,12 @@ def profile(username):
     return render_template("profile.html", triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0])
 
 #TO BE MODIFIED
-@app.route('/donations_history/<username>', methods=['GET','POST'])
-def donationshistory(username):
+@app.route('/myrequests', methods=['GET','POST'])
+def myrequests():
     args = 1 #session[account_id]
     myrequests = mysql_connector.get_requests(mysql,args)
     n_requests = mysql_connector.get_number_requests(mysql,args)
-    return render_template("donationshistory.html", myrequests=myrequests, n_requests=n_requests[0][0])
+    return render_template("myrequests.html", myrequests=myrequests, n_requests=n_requests[0][0])
 
 if __name__ == '__main__':
     app.secret_key = 'not-so-secret-key'
