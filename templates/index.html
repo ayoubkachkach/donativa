@@ -19,10 +19,12 @@
     <p>
        {%if session['logged_in'] == False %}
       <a class="btn btn-lg btn-primary" href="/signup" role="button">Join the movement!</a>
-      {%endif%}
+      {%endif%} 
+
       {%if session['logged_in'] == True and session['type']==1%}
       <a class="btn btn-lg btn-primary" href="/donation_add" role="button">Add a donation!</a>
       {%endif%}
+
     </p>
   </div>
   <h2>Latest Donations: </h2>
