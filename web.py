@@ -150,6 +150,7 @@ def login_form():
         session['logged_in'] = True
         session['logged_in_user'] = username
         session['type'] = result[1]
+        session['account_id'] = result[2]
         return(redirect(url_for('index', username=username)))
     return render_template('login.html', error="Wrong credentials!")
 

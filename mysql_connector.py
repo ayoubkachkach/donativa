@@ -25,7 +25,7 @@ def create_organization(mysql, args):
 
 def login_user(mysql, args):
     cur = mysql.connection.cursor()
-    result = cur.execute("SELECT account_username, account_password, account_type FROM ACCOUNTS WHERE account_username = %s ", [args[0]])
+    result = cur.execute("SELECT account_username, account_password, account_type, account_id FROM ACCOUNTS WHERE account_username = %s ", [args[0]])
     #if no user with username is found
     if result == 0:
     	cur.close()
@@ -37,7 +37,7 @@ def login_user(mysql, args):
     #if passwords do not match
     if password_candidate != password:
         return (False, 0)
-    return (True, data[2])
+    return (True, data[2], data[3])
 
 def get_types(mysql):
     cur = mysql.connection.cursor()
