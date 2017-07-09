@@ -124,7 +124,7 @@ def donation_add():
             file_path = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], filename)
             helpers.ensure_dir(file_path)
             file.save(file_path)
-        mysql_connector.add_donation()
+        mysql_connector.add_donation(mysql, args)
         return redirect(url_for('login'))
     args = 1 #session account_id
     myrequests = mysql_connector.get_requests(mysql,args)

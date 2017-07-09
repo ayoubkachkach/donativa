@@ -139,8 +139,7 @@ CREATE PROCEDURE createOffer(
     IN o_type INTEGER,
     IN o_date DATE,
     IN o_address VARCHAR(80),
-    IN o_picture VARCHAR(60),
-    OUT o_id INTEGER
+    IN o_picture VARCHAR(60)
 )
 BEGIN
         insert into OFFERS
@@ -166,6 +165,6 @@ BEGIN
 			o_picture 
         );
         
-        SET o_id = LAST_INSERT_ID();
+		SELECT LAST_INSERT_ID();
 END#
 DELIMITER ;

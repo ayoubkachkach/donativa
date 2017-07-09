@@ -1,6 +1,6 @@
 import os
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
 
 
 def allowed_file(filename):
