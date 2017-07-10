@@ -26,7 +26,8 @@ mysql = MySQL(app)
 
 @app.route('/donation/<donation_id>')
 def donation(donation_id):
-    return render_template('donation.html')
+    offer = mysql_connector.get_donation(mysql, donation_id)
+    return render_template('donation.html', offer=offer, format_date_hour=helpers.format_date_hour, get_username=mysql_connector.get_username, mysql = mysql)
 
 def login_required(func):
     @wraps(func)

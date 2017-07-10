@@ -15,3 +15,6 @@ def ensure_dir(file_path):
 
 def format_date(date):
 	return date.strftime("%B %d, %Y")
+
+def format_date_hour(time):
+	return time.strftime('%l:%M%p on %b %d, %Y')

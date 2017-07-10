@@ -115,3 +115,12 @@ def get_username(mysql, a_id):
     cur.close()
     mysql.connection.commit()
     return account_username[0][0]
+
+def get_donation(mysql, d_id):
+    d_id = int(d_id)
+    cur = mysql.connection.cursor()
+    result_args = cur.execute("SELECT * FROM OFFERS WHERE offer_id = %s", [d_id])
+    offer = cur.fetchone()
+    cur.close()
+    mysql.connection.commit()
+    return offer

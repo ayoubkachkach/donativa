@@ -1,3 +1,11 @@
+.donation-image{
+	width: 400px;
+    height: 400px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
 
 .time-text{
 	color: #337ab7;
