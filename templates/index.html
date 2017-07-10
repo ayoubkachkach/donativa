@@ -13,7 +13,7 @@
 
 {% block body %}
   <div id="hero-block" class="jumbotron">
-	<h1>Change the world, one donation at a time.</h1>
+	<h1>Change the world one donation at a time.</h1>
 
     <p>With Donativa, donate your unused items to the people that need it the most through our certified charity partners. Free space in your house, give your items a second life, and help your community!</p>
     <p>
@@ -42,9 +42,9 @@
         <div class="card">
           <div class="card-content white-text">
           <a href="/donation_page">
-       		<img src="http://www.petsonbroadway.com/wp-content/uploads/2015/07/cat-supplies-portland-09-300x300.jpg" class="thumbnail donation-card">
+       		<img src={{ item[0] }} class="thumbnail donation-card picture-card">
           </a>
-       		<span class="card-title grey-text text-darken-4">Used Sweater and pair of Sneakers</span>
+       		<span class="card-title grey-text text-darken-4">{{ item[1] }}</span>
             <div class="card__meta">
               <a href={{url_for('profile',username='theayoubkach')}} ><span class="glyphicon glyphicon-user"></span> Ayoub Kachkach</a>
               <time>17th March </time>

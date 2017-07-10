@@ -67,9 +67,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
                 <div class="inside-card card">
                   <div class="card-content white-text">
                   <a href="/donation_page">
-                  <img src="http://www.petsonbroadway.com/wp-content/uploads/2015/07/cat-supplies-portland-09-300x300.jpg" class="thumbnail donation-card">
+                  <img src={{item[0]}} class="thumbnail donation-card">
                   </a>
-                  <span class="card-title grey-text text-darken-4">Used Sweater and pair of Sneakers</span>
+                  <span class="card-title grey-text text-darken-4">{{item[1]}}</span>
                     <div class="card__meta">
                       <a href={{url_for('profile',username='theayoubkach')}} ><span class="glyphicon glyphicon-user"></span> Ayoub Kachkach</a>
                       <time>17th March </time>

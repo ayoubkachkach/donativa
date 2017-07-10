@@ -10,9 +10,8 @@ import mysql_connector
 
 from functools import wraps
 
-
 users_db = {'demo':sha256_crypt.encrypt('demo')}
-mylist = [1, 1, 1, 1, 1, 1]
+mylist = [('https://uniqlo.scene7.com/is/image/UNIQLO/goods_08_126133?$pdp-medium$', 'Sweater to Donate!'), ('http://kyjaak.com/images/produits/f9c208b1ca20b0bfceefa4c21a94ec07.jpg', 'Flour bags to donate.'), ('http://az616578.vo.msecnd.net/files/2016/06/10/636011916262124344-1313810365_socks.jpg', 'Socks to give out.'), ('https://www.taylorguitars.com/sites/default/files/browse-guitars-600-500x647.jpg', 'Guitar for beginners'), ('http://cdn.decoist.com/wp-content/uploads/2013/08/Set-of-6-cordial-glasses.jpg', 'Set of glasses.') ]
 app = Flask(__name__)
 with app.test_request_context():
     app.config['UPLOAD_FOLDER_ACCOUNTS'] = "static/accounts/"
@@ -122,10 +121,11 @@ def donation_add():
         if file and helpers.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             args = (session['account_id'], title, description, city, donation_type, donation_date, address, filename)
+            offer_id = mysql_connector.add_donation(mysql, args)
             file_path = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], filename)
             helpers.ensure_dir(file_path)
             file.save(file_path)
-        mysql_connector.add_donation(mysql, args)
+            os.rename(file_path, os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], str(offer_id) + os.path.splitext(file_path)[1]))
         return redirect(url_for('login'))
     args = 1 #session account_id
     myrequests = mysql_connector.get_requests(mysql,args)
@@ -142,6 +142,7 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
+    session['logged_in'] = False
     del session['logged_in_user']
     return redirect('/')
 

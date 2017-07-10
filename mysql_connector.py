@@ -54,6 +54,7 @@ def add_donation(mysql, args):
     print(data)
     cur.close()
     mysql.connection.commit()
+    return data[0] #donation_id
 
 def get_requests(mysql, a_id):
     cur = mysql.connection.cursor()

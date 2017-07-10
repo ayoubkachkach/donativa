@@ -158,3 +158,6 @@ CREATE EVENT remove_expired_offers
       
       
 DELIMITER $$
+
+
+DELETE FROM OFFERS WHERE offer_id>=0;
