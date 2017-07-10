@@ -1,6 +1,8 @@
 from flask_mysqldb import MySQL
 import _mysql_exceptions 
 
+import helpers
+
 def create_donor(mysql, args):
     try:
         cur = mysql.connection.cursor()
@@ -82,4 +84,27 @@ def accept_request(mysql,args):
     cur.execute("UPDATE REQUEST SET request_status = -1 WHERE account_id <> %s AND offer_id = %s;",(args[1],args[0]))
     cur.close()
     mysql.connection.commit()
+
+def generate_index(mysql,a_id):
+    cur = mysql.connection.cursor()
+    result_args = cur.callproc('get_followed_offers', [a_id])
+    followed = cur.fetchall()
+    cur.close()
+    mysql.connection.commit()
     
+    cur = mysql.connection.cursor()
+    result_args = cur.callproc('get_favorite_types', [a_id])
+    favorite = cur.fetchall()
+    cur.close()
+    mysql.connection.commit()
+
+    cur = mysql.connection.cursor()
+    result_args = cur.callproc('get_offers')
+    rest_offers = cur.fetchall()
+    cur.close()
+    mysql.connection.commit()
+
+    rest_offers = tuple( set(rest_offers)- set(followed+favorite))
+    return helpers.group_list(followed + favorite + rest_offers, 3)
+    
+

@@ -142,6 +142,8 @@ CREATE PROCEDURE createOffer(
     IN o_picture VARCHAR(60)
 )
 BEGIN
+		set @last_id := (SELECT MAX(offer_id) from OFFERS) +1;
+		if(o_picture <> 'none.jpg') THEN
         insert into OFFERS
         (
             account_id,
@@ -163,10 +165,82 @@ BEGIN
 			o_type,
 			o_date,
 			o_address,
-			o_picture,
+			CONCAT(@last_id, '.jpg'),
             NOW()
         );
-        
-		SELECT LAST_INSERT_ID();
+        ELSE
+        insert into OFFERS
+        (
+            account_id,
+            offer_title,
+            offer_description,            
+            offer_city,
+            offer_type_id,
+            offer_expiration_date,
+            offer_address,
+            offer_picture,
+            offer_date
+        )
+        values
+        (
+			account_id,
+			o_title,
+			o_description,
+			o_city,
+			o_type,
+			o_date,
+			o_address,
+			'none.jpg',
+            NOW()
+        );
+        END IF;
+		SELECT @last_id;
 END#
+DELIMITER ;
+
+-- ********************************************* GET OFFERS FOR INDEX ***********************************
+USE DONATIVA;
+DROP PROCEDURE IF EXISTS get_followed_offers;
+DELIMITER $$
+
+CREATE PROCEDURE get_followed_offers (IN a_id INTEGER)
+BEGIN
+	SELECT * FROM OFFERS
+	WHERE account_id = (SELECT followed_account_id FROM ACCOUNT_FOLLOWS
+    WHERE follower_account_id = a_id) ORDER BY offer_date DESC;
+END $$
+DELIMITER ;
+
+-- ********************************************* GET OFFERS FROM FAVORITE TYPE ***********************************
+
+USE DONATIVA;
+DROP PROCEDURE IF EXISTS get_favorite_types;
+DELIMITER $$
+
+CREATE PROCEDURE get_favorite_types (IN a_id INTEGER)
+BEGIN
+	SELECT 
+    *
+FROM
+    OFFERS
+WHERE
+    offer_type_id = (SELECT 
+            type_id
+        FROM
+            ACCOUNT_FAVORITE_TYPES
+        WHERE
+            account_id = a_id) ORDER BY offer_date DESC;
+END $$
+DELIMITER ;
+
+-- ********************************************* GET OFFERS EXCEPT FAVORITE TYPE ***********************************
+
+USE DONATIVA;
+DROP PROCEDURE IF EXISTS get_offers;
+DELIMITER $$
+
+CREATE PROCEDURE get_offers ()
+BEGIN
+	SELECT * FROM OFFERS;
+END $$
 DELIMITER ;

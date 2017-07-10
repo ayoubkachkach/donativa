@@ -48,8 +48,11 @@ def add_header(r):
 # Index and other pages
 @app.route('/')
 def index():
-    triplets= helpers.group_list(mylist, 3)
-    args = session['account_id']
+    if 'account_id' in session:
+        args = session['account_id']
+    else:
+        args = 0 #dummy variable
+    triplets= mysql_connector.generate_index(mysql, args)
     n_requests = mysql_connector.get_number_requests(mysql,args)
     myrequests = mysql_connector.get_requests(mysql,args)
     return render_template("index.html", triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0] )
@@ -118,10 +121,11 @@ def donation_add():
         file = request.files['file']
         if file.filename == '':
             filename = 'none.jpg'
-        if file and helpers.allowed_file(file.filename):
+        else:
             filename = secure_filename(file.filename)
-            args = (session['account_id'], title, description, city, donation_type, donation_date, address, filename)
-            offer_id = mysql_connector.add_donation(mysql, args)
+        args = (session['account_id'], title, description, city, donation_type, donation_date, address, filename)
+        offer_id = mysql_connector.add_donation(mysql, args)
+        if file and helpers.allowed_file(file.filename):
             file_path = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], filename)
             helpers.ensure_dir(file_path)
             file.save(file_path)

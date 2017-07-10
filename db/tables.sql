@@ -144,10 +144,7 @@ CREATE TABLE COMMENTS (
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-SELECT 
-    *
-FROM
-    ACCOUNTS;
+
 CREATE EVENT remove_expired_offers
   ON SCHEDULE
     EVERY 1 DAY
@@ -158,6 +155,3 @@ CREATE EVENT remove_expired_offers
       
       
 DELIMITER $$
-
-
-DELETE FROM OFFERS WHERE offer_id>=0;
