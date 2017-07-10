@@ -49,7 +49,7 @@ def add_header(r):
 @app.route('/')
 def index():
     triplets= helpers.group_list(mylist, 3)
-    args = 1 #session['account_id']
+    args = session['account_id']
     n_requests = mysql_connector.get_number_requests(mysql,args)
     myrequests = mysql_connector.get_requests(mysql,args)
     return render_template("index.html", triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0] )
@@ -127,7 +127,7 @@ def donation_add():
             file.save(file_path)
             os.rename(file_path, os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], str(offer_id) + os.path.splitext(file_path)[1]))
         return redirect(url_for('login'))
-    args = 1 #session account_id
+    args = session['account_id']
     myrequests = mysql_connector.get_requests(mysql,args)
     n_requests = mysql_connector.get_number_requests(mysql,args)
     return render_template('donation_add.html', form=form,myrequests=myrequests ,n_requests=n_requests[0][0])
@@ -164,18 +164,29 @@ def login_form():
 @app.route('/profile/<username>', methods=['GET'])
 def profile(username):
     triplets= helpers.group_list(mylist, 2)
-    args = 1 #session account_id
+    args = session['account_id']
     myrequests = mysql_connector.get_requests(mysql,args) 
     n_requests = mysql_connector.get_number_requests(mysql,args)
     return render_template("profile.html", triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0])
 
-#TO BE MODIFIED
+
 @app.route('/myrequests', methods=['GET','POST'])
 def myrequests():
-    args = 1 #session[account_id]
+    args = session['account_id']
     myrequests = mysql_connector.get_requests(mysql,args)
     n_requests = mysql_connector.get_number_requests(mysql,args)
     return render_template("myrequests.html", myrequests=myrequests, n_requests=n_requests[0][0])
+
+
+@app.route('/process_requests/<status>/<requester_id>/<offer_id>', methods=['GET','POST'])
+def process_requests(offer_id, requester_id, status):
+    args = (offer_id, requester_id)
+    if status == '-1': #cancel this request
+        mysql_connector.cancel_request(mysql,args)
+    else:
+        mysql_connector.accept_request(mysql,args)
+    return(redirect(url_for('myrequests')))
+
 
 if __name__ == '__main__':
     app.secret_key = 'not-so-secret-key'
