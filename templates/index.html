@@ -41,20 +41,17 @@
         <!-- Card 1 -->
         <div class="card">
           <div class="card-content white-text">
-          <a href="/donation_page">
-       		<img src={{ item[0] }} class="thumbnail donation-card picture-card">
+          <a href={{url_for('donation', donation_id = item[0] )}}>
+       		<img src={{folder + item[2] }} class="thumbnail donation-card picture-card" >
           </a>
-       		<span class="card-title grey-text text-darken-4">{{ item[1] }}</span>
+       		<span class="card-title grey-text text-darken-4">{{ item[3] }}</span>
             <div class="card__meta">
-              <a href={{url_for('profile',username='theayoubkach')}} ><span class="glyphicon glyphicon-user"></span> Ayoub Kachkach</a>
-              <time>17th March </time>
+              <a href={{url_for('profile',username=get_username(mysql, item[1]) )}} ><span class="glyphicon glyphicon-user"></span> {{ get_username(mysql, item[1]) }}</a>
+              <time>{{format_date(item[5])}} </time>
             </div>
-            <p class="card-subtitle grey-text text-darken-2 paragraph-card">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <span class="blue-text text-darken-2 card-info"><i class="small material-icons">label</i>&nbsp;lindy hop, balboa, charleston</span>
           </div>
           <div class="card-action">
-            <a href="#">More details</a>
-            <a href="#" class="card-action-right">Some other link</a>
+            <a href={{url_for('donation',donation_id = item[0] )}} style="color:#c0392b">More details</a>
           </div>
         </div>
         <!-- End of card -->

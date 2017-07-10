@@ -107,4 +107,11 @@ def generate_index(mysql,a_id):
     rest_offers = tuple( set(rest_offers)- set(followed+favorite))
     return helpers.group_list(followed + favorite + rest_offers, 3)
     
-
+def get_username(mysql, a_id):
+    a_id = int(a_id)
+    cur = mysql.connection.cursor()
+    result_args = cur.execute("SELECT account_username FROM ACCOUNTS WHERE account_id = %s", [a_id])
+    account_username = cur.fetchall()
+    cur.close()
+    mysql.connection.commit()
+    return account_username[0][0]

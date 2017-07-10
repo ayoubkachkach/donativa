@@ -12,3 +12,6 @@ def group_list(my_list, chunk_size):
 
 def ensure_dir(file_path):
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+def format_date(date):
+	return date.strftime("%B %d, %Y")

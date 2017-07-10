@@ -24,9 +24,9 @@ app.config['MYSQL_DB'] = 'DONATIVA'
 mysql = MySQL(app)
 # mysql.init_app(app)
 
-@app.route('/donation_page')
-def donation_page():
-    return render_template('donation_page.html')
+@app.route('/donation/<donation_id>')
+def donation(donation_id):
+    return render_template('donation.html')
 
 def login_required(func):
     @wraps(func)
@@ -52,10 +52,15 @@ def index():
         args = session['account_id']
     else:
         args = 0 #dummy variable
+
     triplets= mysql_connector.generate_index(mysql, args)
+    print(triplets)
     n_requests = mysql_connector.get_number_requests(mysql,args)
     myrequests = mysql_connector.get_requests(mysql,args)
-    return render_template("index.html", triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0] )
+    folder = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'])
+    get_username = mysql_connector.get_username
+    format_date = helpers.format_date
+    return render_template("index.html", triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0], folder=folder, get_username=get_username, mysql=mysql, format_date=format_date)
 
 
 
@@ -117,7 +122,6 @@ def donation_add():
         address = form.address.data
         donation_type = form.donation_type.data
         donation_date = form.donation_date.data.strftime('%y-%m-%d')
-
         file = request.files['file']
         if file.filename == '':
             filename = 'none.jpg'

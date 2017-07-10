@@ -142,7 +142,7 @@ CREATE PROCEDURE createOffer(
     IN o_picture VARCHAR(60)
 )
 BEGIN
-		set @last_id := (SELECT MAX(offer_id) from OFFERS) +1;
+		
 		if(o_picture <> 'none.jpg') THEN
         insert into OFFERS
         (
@@ -153,7 +153,6 @@ BEGIN
             offer_type_id,
             offer_expiration_date,
             offer_address,
-            offer_picture,
             offer_date
         )
         values
@@ -165,9 +164,11 @@ BEGIN
 			o_type,
 			o_date,
 			o_address,
-			CONCAT(@last_id, '.jpg'),
             NOW()
         );
+        set @last_id := (SELECT MAX(offer_id) from OFFERS);
+        UPDATE OFFERS
+        SET offer_picture = CONCAT(@last_id, '.jpg');
         ELSE
         insert into OFFERS
         (
@@ -197,7 +198,6 @@ BEGIN
 		SELECT @last_id;
 END#
 DELIMITER ;
-
 -- ********************************************* GET OFFERS FOR INDEX ***********************************
 USE DONATIVA;
 DROP PROCEDURE IF EXISTS get_followed_offers;
