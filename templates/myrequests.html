@@ -11,13 +11,12 @@
 			</div>
 			<div class="col-md-7">
 			<h4>{% print(j[2]) %}</h4>
-			<h5 style="color: grey;">{% print(j[0]) %}</h5>
+			<h5 style="color: grey;">{% print(j[0]) %}</h5> 
+			<!--0-organisation name,1-org picture, 2-off title, 3-off id, 4-account_id-->
 			</div>
-			
-			<form action="http://google.com">
-				<br/><br/><button type="button" class="btn btn-success"><a href="/" style="color:white;">Accept</button>	
-				<button method="get" type="button" class="btn btn-danger"><a href="/" style="color:white;">Reject</a></button>
-			</form>
+			<br/><br/>
+			<button type="button" class="btn btn-success"><a href="/process_requests/1/{{j[4]}}/{{ j[3]}}" style="color:white;">Accept</button>	
+			<button  type="button" class="btn btn-danger"><a href="/process_requests/-1/{{j[4]}}/{{ j[3]}}" style="color:white;">Reject</a></button>
 		</div>
 		<hr>
 	{% endfor %}
