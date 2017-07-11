@@ -58,20 +58,6 @@ def add_donation(mysql, args):
     mysql.connection.commit()
     return data[0] #donation_id
 
-def get_requests(mysql, a_id):
-    cur = mysql.connection.cursor()
-    cur.execute(" SELECT ORG.organization_name, ORG.organization_picture, OFF.offer_title, OFF.offer_id, ORG.account_id FROM REQUEST R INNER JOIN ORGANIZATIONS ORG ON R.account_id = ORG.account_id INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id WHERE R.request_status = 0 AND OFF.account_id = %s;",[a_id])
-    data = cur.fetchall() #returns a list of tuples
-    myrequests = [(r[0], r[1], r[2], r[3],r[4]) for r in data]
-    cur.close()
-    return myrequests
-    
-def get_number_requests (mysql, a_id):
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT COUNT(R.account_id) FROM REQUEST R INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id WHERE OFF.account_id = %s AND R.request_status=0",[a_id])
-    n_requests = cur.fetchall() #returns a list of tuples
-    cur.close()
-    return n_requests
 def cancel_request(mysql,args):
     cur = mysql.connection.cursor()
     cur.execute("UPDATE REQUEST SET request_status = -1 WHERE account_id = %s AND offer_id = %s;",(args[1],args[0]))
@@ -124,3 +110,53 @@ def get_donation(mysql, d_id):
     cur.close()
     mysql.connection.commit()
     return offer
+
+def get_requests(mysql, a_id):
+    cur = mysql.connection.cursor()
+    cur.execute(" SELECT ORG.organization_name, ORG.organization_picture, OFF.offer_title, OFF.offer_id, ORG.account_id FROM REQUEST R INNER JOIN ORGANIZATIONS ORG ON R.account_id = ORG.account_id INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id WHERE R.request_status = 0 AND OFF.account_id = %s;",[a_id])
+    data = cur.fetchall() #returns a list of tuples
+    myrequests = [(r[0], r[1], r[2], r[3],r[4]) for r in data]
+    cur.close()
+    return myrequests
+    
+def get_number_requests (mysql, a_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT COUNT(R.account_id) FROM REQUEST R INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id WHERE OFF.account_id = %s AND R.request_status=0",[a_id])
+    n_requests = cur.fetchall() #returns a list of tuples
+    cur.close()
+    return n_requests
+def get_requests_answer(mysql, args):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT OFF.offer_title,A.account_username,  OFF.offer_picture, OFF.offer_id,D.account_id FROM REQUEST R INNER JOIN OFFERS OFF ON OFF.offer_id = R.offer_id INNER JOIN DONORS D ON D.account_id = OFF.account_id INNER JOIN ACCOUNTS A ON A.account_id = D.account_id WHERE R.account_id = %s AND R.request_status = 1;",[args])
+    data = cur.fetchall() #returns a list of tuples
+    myrequests = [(r[0], r[1], r[2], r[3], r[4]) for r in data]
+    cur.close()
+    return myrequests
+
+def get_number_answers_requests (mysql, a_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT COUNT(*) FROM REQUEST WHERE account_id = %s AND request_status=1;",[a_id])
+    n_requests = cur.fetchall() #returns a list of tuples
+    cur.close()
+    return n_requests
+
+def view_notifications(mysql,user_status,args):
+    if user_status == 1: #donor
+        myrequests = get_requests(mysql,args)
+    else:
+        myrequests = get_requests_answer(mysql,args)
+    return myrequests
+
+def view_number_notifications(mysql,user_status,args):
+    if user_status == 1: #donor
+        n_requests = get_number_requests(mysql,args)
+    else:
+        n_requests = get_number_answers_requests(mysql,args)
+    return n_requests
+def send_request(mysql, args):
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO REQUEST (offer_id, account_id, request_status,request_date) VALUES (%s, %s, 0,'2017-01-11')",(args[1], args[0]))
+    n_requests = cur.fetchall() #returns a list of tuples
+    cur.close()
+    mysql.connection.commit()
+

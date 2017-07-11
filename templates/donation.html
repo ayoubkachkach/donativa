@@ -59,8 +59,8 @@
 	</div>
 	<div class="col-md-4">
 		<div class="details-text">
-			{%if session['logged_in']==True and session['type']==1%}
-			<button type="button" class="btn btn-primary btn-lg btn-block btn-request">Request Donation</button>
+			{%if session['logged_in']==True and session['type']==2%}
+			<button type="button" class="btn btn-primary btn-lg btn-block btn-request"><a href="/send_requests/{{session['account_id']}}/{{offer[0]}}" style="color:white;">Request Donation</button>
 			{%endif%}<br>
 			<a href={{url_for('profile',username=get_username(mysql, offer[1]) )}}  style="font-size:17px"><span class="glyphicon glyphicon-user"></span> <h5 style="display:inline;">{{get_username(mysql,offer[1])}}</h5></a><br><br>
 			<a style="font-size:17px"><span class="glyphicon glyphicon-home"></span> <h5 style="display:inline;">{{offer[10] +","}}<br>&emsp;&emsp;&emsp; {{offer[6]}}</h5></a><br><br>

@@ -67,18 +67,34 @@
                                 <p class="green">You have {% print n_requests %} new messages</p>
                             </li>
                             {% for j in myrequests %}
-                            <li>
+                              {% if session['type'] == 2%}
+                              <li>
+                                <a class href="/myanswers">
+                                    <span class="photo"><img alt="avatar" src="http://www.lavoixdelenfant.org/img/assosmembres/BAYTI.png"></span>
+                                    <span class="subject">
+                                    <span class="from">{% print(j[0]) %}</span>
+                                    <span class="time">Just now</span>
+                                    </span>
+                                    <span class="message">
+                                        <strong>{% print(j[1])  %}</strong> accepted!
+                                    </span>
+                                </a>
+                              </li>
+                              {% else %}
+                              <li>
                                 <a class href="/myrequests">
                                     <span class="photo"><img alt="avatar" src="http://www.lavoixdelenfant.org/img/assosmembres/BAYTI.png"></span>
                                     <span class="subject">
                                     <span class="from">{% print(j[2]) %}</span>
-                                    <span class="time">Just now</span>
+                                    <span class="time">4 min ago</span>
                                     </span>
                                     <span class="message">
                                         {% print(j[0]) %}
                                     </span>
                                 </a>
-                            </li>
+                              </li>
+                              {% endif %}
+
                             {% endfor %}
                     <!-- inbox dropdown end -->
                 </ul>

@@ -56,8 +56,8 @@ def index():
 
     triplets= mysql_connector.generate_index(mysql, args)
     print(triplets)
-    n_requests = mysql_connector.get_number_requests(mysql,args)
-    myrequests = mysql_connector.get_requests(mysql,args)
+    n_requests = mysql_connector.view_number_notifications(mysql,session['type'], args)
+    myrequests = mysql_connector.view_notifications(mysql,session['type'], args)
     folder = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'])
     get_username = mysql_connector.get_username
     format_date = helpers.format_date
@@ -137,8 +137,8 @@ def donation_add():
             os.rename(file_path, os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], str(offer_id) + os.path.splitext(file_path)[1]))
         return redirect(url_for('login'))
     args = session['account_id']
-    myrequests = mysql_connector.get_requests(mysql,args)
-    n_requests = mysql_connector.get_number_requests(mysql,args)
+    n_requests = mysql_connector.view_number_notifications(mysql,session['type'], args)
+    myrequests = mysql_connector.view_notifications(mysql,session['type'], args) 
     return render_template('donation_add.html', form=form,myrequests=myrequests ,n_requests=n_requests[0][0])
         
 
@@ -195,6 +195,20 @@ def process_requests(offer_id, requester_id, status):
     else:
         mysql_connector.accept_request(mysql,args)
     return(redirect(url_for('myrequests')))
+
+
+@app.route('/send_requests/<account_id>/<offer_id>', methods=['GET','POST'])
+def send_requests(account_id, offer_id):
+    args = (account_id,offer_id)
+    mysql_connector.send_request(mysql,args)
+    return(redirect(url_for('index')))
+
+@app.route('/myanswers', methods=['GET','POST'])
+def myanswers():
+    args = session['account_id']
+    n_requests = mysql_connector.view_number_notifications(mysql,session['type'], args)
+    myrequests = mysql_connector.view_notifications(mysql,session['type'], args)
+    return render_template("myanswers.html", myrequests=myrequests, n_requests=n_requests[0][0])
 
 
 if __name__ == '__main__':

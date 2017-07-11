@@ -128,6 +128,7 @@ BEGIN
     END IF;
 END#
 DELIMITER ;
+-- *************************CREATE OFFER**********************************************--
 USE DONATIVA;
 DROP PROCEDURE IF EXISTS createOffer;
 DELIMITER #
