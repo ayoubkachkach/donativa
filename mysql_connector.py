@@ -58,6 +58,20 @@ def add_donation(mysql, args):
     mysql.connection.commit()
     return data[0] #donation_id
 
+def get_requests(mysql, a_id):
+    cur = mysql.connection.cursor()
+    cur.execute(" SELECT ORG.organization_name, ORG.organization_picture, OFF.offer_title, OFF.offer_id, ORG.account_id FROM REQUEST R INNER JOIN ORGANIZATIONS ORG ON R.account_id = ORG.account_id INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id WHERE R.request_status = 0 AND OFF.account_id = %s;",[a_id])
+    data = cur.fetchall() #returns a list of tuples
+    myrequests = [(r[0], r[1], r[2], r[3],r[4]) for r in data]
+    cur.close()
+    return myrequests
+    
+def get_number_requests (mysql, a_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT COUNT(R.account_id) FROM REQUEST R INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id WHERE OFF.account_id = %s AND R.request_status=0",[a_id])
+    n_requests = cur.fetchall() #returns a list of tuples
+    cur.close()
+    return n_requests
 def cancel_request(mysql,args):
     cur = mysql.connection.cursor()
     cur.execute("UPDATE REQUEST SET request_status = -1 WHERE account_id = %s AND offer_id = %s;",(args[1],args[0]))
@@ -111,6 +125,35 @@ def get_donation(mysql, d_id):
     mysql.connection.commit()
     return offer
 
+def get_type_user(mysql, username):
+    cur = mysql.connection.cursor()
+    result_args = cur.execute("SELECT account_type FROM ACCOUNTS WHERE account_username = %s", [username])
+    user_type = cur.fetchone()
+    cur.close()
+    mysql.connection.commit()
+    return user_type[0]
+
+def get_account_id(mysql, username):
+    cur = mysql.connection.cursor()
+    result_args = cur.execute("SELECT account_id FROM ACCOUNTS WHERE account_username = %s", [username])
+    account_id = cur.fetchone()
+    cur.close()
+    mysql.connection.commit()
+    return account_id[0]
+
+def get_user(mysql, username):
+    cur = mysql.connection.cursor()
+    user_type = get_type_user(mysql, username)
+    account_id = get_account_id(mysql, username)
+    if int(user_type) == 1: 
+        result_args = cur.execute("SELECT A.account_id, A.account_type, A.account_email, A.account_username, A.account_bio, D.donor_picture, CONCAT(D.donor_first_name, ' ', D.donor_last_name), D.donor_address, D.donor_city, D.donor_phone_number, D.donor_followers FROM ACCOUNTS A INNER JOIN DONORS D WHERE A.account_id = %s and A.account_id = D.account_id", [account_id])
+    else:
+        result_args = cur.execute("SELECT A.account_id, A.account_type, A.account_email, A.account_username, A.account_bio, O.organization_picture, O.organization_name, O.organization_address, O.organization_city, O.organization_phone_number, O.organization_followers FROM ACCOUNTS A INNER JOIN ORGANIZATIONS O WHERE A.account_id = %s and A.account_id = O.account_id", [account_id])
+    user = cur.fetchone()
+    cur.close()
+    mysql.connection.commit()
+    return user
+
 def get_requests(mysql, a_id):
     cur = mysql.connection.cursor()
     cur.execute(" SELECT ORG.organization_name, ORG.organization_picture, OFF.offer_title, OFF.offer_id, ORG.account_id FROM REQUEST R INNER JOIN ORGANIZATIONS ORG ON R.account_id = ORG.account_id INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id WHERE R.request_status = 0 AND OFF.account_id = %s;",[a_id])
@@ -159,4 +202,3 @@ def send_request(mysql, args):
     n_requests = cur.fetchall() #returns a list of tuples
     cur.close()
     mysql.connection.commit()
-
