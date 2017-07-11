@@ -172,11 +172,12 @@ def login_form():
 #Profile
 @app.route('/profile/<username>', methods=['GET'])
 def profile(username):
-    triplets= helpers.group_list(mylist, 2)
     args = session['account_id']
     myrequests = mysql_connector.get_requests(mysql,args) 
     n_requests = mysql_connector.get_number_requests(mysql,args)
-    return render_template("profile.html", triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0])
+    user = mysql_connector.get_user(mysql, username)
+    triplets = [[]]
+    return render_template("profile.html", user=user, triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0])
 
 
 @app.route('/myrequests', methods=['GET','POST'])

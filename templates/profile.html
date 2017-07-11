@@ -28,20 +28,29 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <img src="/static/images/IMG_7197.jpg" style="height: 300px;width: 100%;" alt="Avatar">
          
         </div>
-        <h2 class="username">TheAyoubKach</h2>
+        <h2 class="username">{{user[3]}}</h2>
         <h4 class="type-profile-text">
-        <span class="w3-tag w3-round type-profile" >Organization</span>
+        <span class="w3-tag w3-round type-profile" >
+        {%if user[1] == 1 %}
+        Donor
+        {%endif%}
+        {%if user[1] == 2 %}
+        Organization
+        {%endif%}
+        </span>
         </h4>
 
         <div class="w3-container">
           <hr>
-          <p><i class="fa fa-user-circle-o fa-fw w3-margin-right w3-large w3-margin-bottom w3-margin-top" style="color:#337ab7;"></i>FirstName   LastName</p>
-          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-margin-bottom" style="color:#337ab7;"></i>Address</p>
-          <p><i class="fa fa-map-marker fa-fw w3-margin-right w3-large w3-margin-bottom" aria-hidden="true" style="color:#337ab7;"></i>City, Country</p>
-          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-margin-bottom" style="color:#337ab7;"></i>ex@mail.com</p>
-          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large" style="color:#337ab7;"></i>Phone Number</p>
+          <p><i class="fa fa-user-circle-o fa-fw w3-margin-right w3-large w3-margin-bottom w3-margin-top" style="color:#337ab7;"></i>{{user[6]}}</p>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-margin-bottom" style="color:#337ab7;"></i>{{user[7]}}</p>
+          <p><i class="fa fa-map-marker fa-fw w3-margin-right w3-large w3-margin-bottom" aria-hidden="true" style="color:#337ab7;"></i>{{user[8]}}</p>
+          <p><i class="fa fa-envelope fa-fw w3-margin-right w3-large w3-margin-bottom" style="color:#337ab7;"></i>{{user[2]}}</p>
+          <p><i class="fa fa-phone fa-fw w3-margin-right w3-large" style="color:#337ab7;"></i>{{user[9]}}</p>
           <hr>
           <p class="w3-large"><b><i class="fa fa-address-card-o fa-fw w3-margin-right" style="color:#337ab7;"></i>Bio</b></p>
+          <br>
+          <p>{{user[4]}}</p>
           <br>
           <hr>
           <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Followers</b></p>
