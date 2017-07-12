@@ -130,6 +130,7 @@ def donation_add():
             filename = secure_filename(file.filename)
         args = (session['account_id'], title, description, city, donation_type, donation_date, address, filename)
         offer_id = mysql_connector.add_donation(mysql, args)
+        
         if file and helpers.allowed_file(file.filename):
             file_path = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], filename)
             helpers.ensure_dir(file_path)

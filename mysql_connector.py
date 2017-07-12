@@ -202,3 +202,19 @@ def send_request(mysql, args):
     n_requests = cur.fetchall() #returns a list of tuples
     cur.close()
     mysql.connection.commit()
+
+def get_donor_donations(mysql, a_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM OFFERS WHERE account_id = %s",[a_id])
+    donations = cur.fetchall() #returns a list of tuples
+    cur.close()
+    mysql.connection.commit()
+    return donations
+
+def get_organization_donations(mysql, a_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM OFFERS O INNER JOIN REQUEST R WHERE  R.account_id = %s and O.offer_id = R.offer_id",[a_id])
+    donations = cur.fetchall() #returns a list of tuples
+    cur.close()
+    mysql.connection.commit()
+    return donations
