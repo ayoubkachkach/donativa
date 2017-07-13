@@ -38,7 +38,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         Organization
         {%endif%}       
         </span>
-        <span class="w3-tag w3-round type-profile" > <a href="/follow/{{user[0]}}/{{user[3]}}" style="color:white;">Follow </a></span>
+        {% if session.logged_in_user %}
+        <span class="w3-tag w3-round type-follow " > <a href="/follow/{{user[0]}}/{{user[3]}}" style="color:white;">Follow </a></span>
+      {%endif%}
         </h4>
 
         <div class="w3-container">

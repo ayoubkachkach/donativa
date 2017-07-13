@@ -26,6 +26,7 @@ mysql = MySQL(app)
 
 @app.route('/donation/<donation_id>', methods=['GET', 'POST'])
 def donation(donation_id):
+<<<<<<< HEAD
     comments = mysql_connector.get_comments(mysql, donation_id)
     form = forms.PostForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -34,9 +35,14 @@ def donation(donation_id):
         mysql_connector.add_comment(mysql, args)
         
     offer = mysql_connector.get_donation(mysql, donation_id)
+    return render_template('donation.html', comments=comments, form=form,offer=offer, format_date_hour=helpers.format_date_hour, get_username=mysql_connector.get_username, mysql = mysql)
+=======
+    args = session['account_id']
+    offer = mysql_connector.get_donation(mysql, donation_id)
     n_requests = mysql_connector.view_number_notifications(mysql,session['type'], args)
     myrequests = mysql_connector.view_notifications(mysql,session['type'], args)
     return render_template('donation.html',myrequests=myrequests, n_requests=n_requests[0][0], offer=offer, format_date_hour=helpers.format_date_hour, get_username=mysql_connector.get_username, mysql = mysql)
+>>>>>>> b94cdf03a488e8ccfeb314def19e5992269ccca9
 
 def login_required(func):
     @wraps(func)
