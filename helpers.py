@@ -21,6 +21,7 @@ def format_date_hour(time):
 
 def upload_file(file, file_path):
     if file and allowed_file(file.filename):
+        print("FILE PATH IS: "+file_path)
         ensure_dir(file_path)
         file.save(file_path)
-        print("FILE PATH IS: "+file_path)
+        

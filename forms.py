@@ -1,6 +1,6 @@
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, DateField, SelectField, FileField
 from datetime import date
-
+from wtforms.widgets import TextArea
 import mysql_connector
 
 class UserSignupForm(Form):
@@ -47,4 +47,7 @@ class CreateDonationForm(Form):
     city = StringField('City', [validators.Length(min=1, max=40)])
     donation_date = DateField("Offer's Expiration Date", format="%m/%d/%Y")
     donation_type = SelectField('Offer Type', coerce=int)
+
+class PostForm(Form):
+    body = StringField(u'Text', widget=TextArea())
 

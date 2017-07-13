@@ -4,7 +4,9 @@
 
 <h1>Sign-up for Donativa</h1>
 {% from "includes/_formhelpers.html" import render_field %}
-<form method="POST" action="">
+<form method="POST" enctype="multipart/form-data" action="">
+<strong><p style='font-size=22px;'>Picture (Optional)</p></strong>
+  <p><input type=file name=file>
   <div class="form-group">
     {{render_field(form.first_name, class_="form-control")}}
   </div>

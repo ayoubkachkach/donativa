@@ -14,7 +14,7 @@ users_db = {'demo':sha256_crypt.encrypt('demo')}
 mylist = [('https://uniqlo.scene7.com/is/image/UNIQLO/goods_08_126133?$pdp-medium$', 'Sweater to Donate!'), ('http://kyjaak.com/images/produits/f9c208b1ca20b0bfceefa4c21a94ec07.jpg', 'Flour bags to donate.'), ('http://az616578.vo.msecnd.net/files/2016/06/10/636011916262124344-1313810365_socks.jpg', 'Socks to give out.'), ('https://www.taylorguitars.com/sites/default/files/browse-guitars-600-500x647.jpg', 'Guitar for beginners'), ('http://cdn.decoist.com/wp-content/uploads/2013/08/Set-of-6-cordial-glasses.jpg', 'Set of glasses.') ]
 app = Flask(__name__)
 with app.test_request_context():
-    app.config['UPLOAD_FOLDER_ACCOUNTS'] = "/static/accounts/"
+    app.config['UPLOAD_FOLDER_ACCOUNTS'] = "static/accounts/"
     app.config['UPLOAD_FOLDER_DONATIONS'] = "/static/donations/"
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -24,10 +24,17 @@ app.config['MYSQL_DB'] = 'DONATIVA'
 mysql = MySQL(app)
 # mysql.init_app(app)
 
-@app.route('/donation/<donation_id>')
+@app.route('/donation/<donation_id>', methods=['GET', 'POST'])
 def donation(donation_id):
+    comments = mysql_connector.get_comments(mysql, donation_id)
+    form = forms.PostForm(request.form)
+    if request.method == 'POST' and form.validate():
+        comment = form.body.data
+        args = (comment, session['account_id'], donation_id)
+        mysql_connector.add_comment(mysql, args)
+        
     offer = mysql_connector.get_donation(mysql, donation_id)
-    return render_template('donation.html', offer=offer, format_date_hour=helpers.format_date_hour, get_username=mysql_connector.get_username, mysql = mysql)
+    return render_template('donation.html', comments=comments, form=form,offer=offer, format_date_hour=helpers.format_date_hour, get_username=mysql_connector.get_username, mysql = mysql)
 
 def login_required(func):
     @wraps(func)
@@ -104,8 +111,17 @@ def organization_signup():
         city = form.city.data
         phone_number = form.phone_number.data
         certification_code = form.certification_code.data
-        args = (email, username, password, bio, 2, name, address, city, phone_number, certification_code)
-        if mysql_connector.create_organization(mysql, args) == True:
+        file = request.files['file']
+        if file.filename == '':
+            filename = 'none.jpg'
+        else:
+            filename = secure_filename(file.filename)
+        args = (email, username, password, bio, 2, name, address, city, phone_number, certification_code, filename)
+        result = mysql_connector.create_organization(mysql, args)
+        if result[0] == True:
+            file_path = os.path.join(app.config['UPLOAD_FOLDER_ACCOUNTS'], str(result[1]) + '.jpg')
+            if file.filename != '':
+                helpers.upload_file(file, file_path)
             return redirect(url_for('login'))
         else:
             return render_template('organization_signup.html', form=form, error="Username or email already exists!")

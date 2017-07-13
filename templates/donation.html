@@ -17,6 +17,7 @@
 		<h1>Comments:</h1>
 
 		<ul id="comments-list" class="comments-list">
+			{%for comment in comments%}
 			<li>
 				<div class="comment-main-level">
 					<!-- Avatar -->
@@ -24,36 +25,23 @@
 					<!-- Contenedor del Comentario -->
 					<div class="comment-box">
 						<div class="comment-head">
-							<h6 class="comment-name by-organization"><a href="http://creaticode.com/blog">Manal Hamdi</a></h6>
-							<h4><small>20 minutes ago</small></h4>
-							<i class="fa fa-reply"></i>
-							<i class="fa fa-heart"></i>
+							<h6 class="comment-name"><a href="http://creaticode.com/blog">{{get_username(mysql,comment[1])}}</a></h6>
+							<h4><small>{{comment[2]}}</small></h4>
 						</div>
 						<div class="comment-content">
-							Nice sweater! I am interested in getting it for my beloved cats. My house tends to get cold at night and they need something to keep their frail bodies warm.
+							{{comment[0]}}
 						</div>
 					</div>
 				</div>
 			</li>
-			<li>
-				<div class="comment-main-level">
-					<!-- Avatar -->
-					<div class="comment-avatar"><img src="https://ih0.redbubble.net/image.211938184.8011/st%2Csmall%2C215x235-pad%2C210x230%2Cf8f8f8.lite-1u1.jpg" alt=""></div>
-					<!-- Contenedor del Comentario -->
-					<div class="comment-box">
-						<div class="comment-head">
-							<h6 class="comment-name by-donor"><a href="http://creaticode.com/blog">Ayoub Kachkach</a></h6>
-							<h4><small>A few seconds ago...</small></h4>
-							<i class="fa fa-reply"></i>
-							<i class="fa fa-heart"></i>
-						</div>
-						<div class="comment-content">
-							@Manal Hamdi: Douchebag.
-						</div>
-					</div>
-				</div>
-			</li>
+			{%endfor%}
 		</ul>
+	</div>
+	<div>
+		<form action="" method=post>
+	      {{ form.body(cols="107", rows="5") }}
+	      <input type=submit value="Comment">
+		</form>
 	</div>
 
 	</div>

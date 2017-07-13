@@ -20,10 +20,16 @@ def create_organization(mysql, args):
         result_args = cur.callproc('createOrganization', args)
         cur.close()
         mysql.connection.commit()
-        return True
+
+        cur = mysql.connection.cursor()
+        result_args = cur.execute("SELECT account_id FROM ACCOUNTS WHERE account_username = %s", [args[1]])
+        a_id = cur.fetchone();
+        cur.close()
+        mysql.connection.commit()
+        return (True, a_id[0])
     except _mysql_exceptions.OperationalError as e:
         print(e)
-        return False
+        return (False, 0)
 
 def login_user(mysql, args):
     cur = mysql.connection.cursor()
@@ -218,3 +224,19 @@ def get_organization_donations(mysql, a_id):
     cur.close()
     mysql.connection.commit()
     return donations
+
+def add_comment(mysql, args):
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO COMMENTS(comment_text, account_id, offer_id, comment_date) VALUES (%s, %s, %s, NOW())",[args[0], args[1], args[2]])
+    cur.close()
+    mysql.connection.commit()
+
+def get_comments(mysql, d_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT comment_text, account_id, comment_date FROM COMMENTS WHERE offer_id = %s", [d_id])
+    comments = cur.fetchall()
+    cur.close()
+    mysql.connection.commit()
+    return comments
+
+

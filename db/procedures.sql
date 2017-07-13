@@ -78,7 +78,8 @@ CREATE PROCEDURE createOrganization(
     IN o_address VARCHAR(30),
     IN o_city VARCHAR(20),
     IN o_phone_number VARCHAR(15),
-    IN o_certification_code VARCHAR(20)
+    IN o_certification_code VARCHAR(20),
+    IN o_picture VARCHAR(60)
 )
 BEGIN
     if  ( select exists (select 1 from ACCOUNTS where account_username = a_username 
@@ -106,6 +107,7 @@ BEGIN
             a_type
         );
         set @id := (SELECT account_id FROM ACCOUNTS WHERE account_username=a_username);
+        if(o_picture <> 'none.jpg') THEN
         insert into ORGANIZATIONS
         (
             account_id,
@@ -113,7 +115,8 @@ BEGIN
             organization_address,
             organization_city,
             organization_phone_number,
-            organization_certification_code
+            organization_certification_code,
+            organization_picture
         )
         values
         (
@@ -122,9 +125,31 @@ BEGIN
             o_address,
             o_city,
             o_phone_number,
-            o_certification_code
+            o_certification_code,
+            CONCAT(@id, '.jpg')
         );
-     
+        ELSE
+		insert into ORGANIZATIONS
+        (
+            account_id,
+            organization_name,
+            organization_address,
+            organization_city,
+            organization_phone_number,
+            organization_certification_code,
+            organization_picture
+        )
+        values
+        (
+            @id,
+            o_name,
+            o_address,
+            o_city,
+            o_phone_number,
+            o_certification_code,
+            'none.jpg'
+        );
+        END IF;
     END IF;
 END#
 DELIMITER ;
@@ -208,7 +233,7 @@ CREATE PROCEDURE get_followed_offers (IN a_id INTEGER)
 BEGIN
 	SELECT * FROM OFFERS
 	WHERE account_id = (SELECT followed_account_id FROM ACCOUNT_FOLLOWS
-    WHERE follower_account_id = a_id) ORDER BY offer_date DESC;
+    WHERE follower_account_id = a_id) ORDER BY UNIX_TIMESTAMP(offer_date) DESC;
 END $$
 DELIMITER ;
 
@@ -230,7 +255,7 @@ WHERE
         FROM
             ACCOUNT_FAVORITE_TYPES
         WHERE
-            account_id = a_id) ORDER BY offer_date DESC;
+            account_id = a_id) ORDER BY UNIX_TIMESTAMP(offer_date) DESC;
 END $$
 DELIMITER ;
 
@@ -242,6 +267,6 @@ DELIMITER $$
 
 CREATE PROCEDURE get_offers ()
 BEGIN
-	SELECT * FROM OFFERS;
+	SELECT * FROM OFFERS ORDER BY UNIX_TIMESTAMP(offer_date) DESC;
 END $$
 DELIMITER ;
