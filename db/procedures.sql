@@ -207,7 +207,7 @@ DELIMITER $$
 CREATE PROCEDURE get_followed_offers (IN a_id INTEGER)
 BEGIN
 	SELECT * FROM OFFERS
-	WHERE account_id = (SELECT followed_account_id FROM ACCOUNT_FOLLOWS
+	WHERE account_id IN (SELECT followed_account_id FROM ACCOUNT_FOLLOWS
     WHERE follower_account_id = a_id) ORDER BY offer_date DESC;
 END $$
 DELIMITER ;
@@ -225,7 +225,7 @@ BEGIN
 FROM
     OFFERS
 WHERE
-    offer_type_id = (SELECT 
+    offer_type_id IN (SELECT 
             type_id
         FROM
             ACCOUNT_FAVORITE_TYPES
@@ -233,6 +233,20 @@ WHERE
             account_id = a_id) ORDER BY offer_date DESC;
 END $$
 DELIMITER ;
+-- ************************************
+-- moul_offer accepted to give you this  offer_title, offer_picture, 
+SELECT D.account_id, OFF.offer_title, OFF.offer_picture, OFF.offer_id
+FROM REQUEST R INNER JOIN OFFERS OFF ON OFF.offer_id = R.offer_id
+INNER JOIN DONORS D ON D.account_id = OFF.account_id
+WHERE R.account_id = '' AND R.request_status = 1;
+
+SELECT COUNT(*) FROM REQUEST WHERE account_id = '' AND request_status=1;
+SELECT * FROM OFFERS;
+
+SELECT ORG.organization_name, ORG.organization_picture, OFF.offer_title, OFF.offer_id 
+FROM REQUEST R INNER JOIN ORGANIZATIONS ORG ON R.account_id = ORG.account_id 
+INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id 
+WHERE R.request_status = 1 AND OFF.account_id = 1;
 
 -- ********************************************* GET OFFERS EXCEPT FAVORITE TYPE ***********************************
 

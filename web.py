@@ -173,18 +173,20 @@ def login_form():
 @app.route('/profile/<username>', methods=['GET'])
 def profile(username):
     args = session['account_id']
-    myrequests = mysql_connector.get_requests(mysql,args) 
-    n_requests = mysql_connector.get_number_requests(mysql,args)
+    n_requests = mysql_connector.view_number_notifications(mysql,session['type'], args)
+    myrequests = mysql_connector.view_notifications(mysql,session['type'], args)
+    n_followers = mysql_connector.get_number_followers(mysql, args)
+    n_following = mysql_connector.get_number_following(mysql, args)
     user = mysql_connector.get_user(mysql, username)
     triplets = [[]]
-    return render_template("profile.html", user=user, triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0])
+    return render_template("profile.html", user=user, triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0], n_followers=n_followers[0][0], n_following=n_following[0][0])
 
 
 @app.route('/myrequests', methods=['GET','POST'])
 def myrequests():
     args = session['account_id']
-    myrequests = mysql_connector.get_requests(mysql,args)
-    n_requests = mysql_connector.get_number_requests(mysql,args)
+    n_requests = mysql_connector.view_number_notifications(mysql,session['type'], args)
+    myrequests = mysql_connector.view_notifications(mysql,session['type'], args)
     return render_template("myrequests.html", myrequests=myrequests, n_requests=n_requests[0][0])
 
 
@@ -211,6 +213,33 @@ def myanswers():
     myrequests = mysql_connector.view_notifications(mysql,session['type'], args)
     return render_template("myanswers.html", myrequests=myrequests, n_requests=n_requests[0][0])
 
+@login_required
+@app.route('/follow/<account_id_to_be_followed>/<username_to_be_followed>/')
+def follow(account_id_to_be_followed, username_to_be_followed):
+    args = ( session['account_id'],account_id_to_be_followed)
+    mysql_connector.follow(mysql,args)
+    n_followers = mysql_connector.get_number_followers(mysql, args)
+    n_following = mysql_connector.get_number_following(mysql, args)
+    return redirect(url_for('profile',username=username_to_be_followed))
+
+@login_required
+@app.route('/view_followers/<account_id>/<account_username>')
+def view_followers(account_id, account_username):
+    args = account_id
+    myfollowers = mysql_connector.view_followers(mysql,args)
+    return render_template("myfollowers.html",myfollowers=myfollowers, a_username=account_username)
+
+@app.route('/view_following/<account_id>/<account_username>')
+def view_following(account_id,account_username):
+    args = account_id
+    myfollowing = mysql_connector.view_following(mysql, args)
+    return render_template("myfollowing.html",myfollowing=myfollowing, a_username=account_username)
+
+@app.route('/unfollow/<account_id_unfollow>/<account_username_unfollow>')
+def unfollow(account_id_unfollow, account_username_unfollow):
+    args = (session['account_id'], account_id_unfollow)
+    mysql_connector.unfollow(mysql, args)
+    return redirect(url_for('view_following',account_id=session['account_id'], account_username=session['logged_in_user']))
 
 if __name__ == '__main__':
     app.secret_key = 'not-so-secret-key'

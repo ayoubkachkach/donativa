@@ -1,0 +1,26 @@
+{%extends "base.html"%}
+{%block css%}
+{%endblock%}
+
+{% block body %}	
+	<div class="col-md-12">
+	{% for j in myfollowing %}
+		<div class="row" >
+			<div class="col-md-1 thumbnail" style="border: 1px solid #DDD">
+			<img src="https://scontent-mad1-1.xx.fbcdn.net/v/t1.0-9/12208710_880517135351049_2664080044137643377_n.jpg?oh=1f045b744226807b68290d8affa4fea1&oe=59C9D4B2">
+			</div>
+			<div class="col-md-7">
+			<h4> </h4>
+			<br/>
+			<h5 style="color: grey;"><a href="/profile/{{a_username}}">{{a_username}} </a>is following <a href= "/profile/{{j[0]}}"><strong>{% print(j[0]) %}</strong></a> </h5> 
+			<!--0-organisation name,1-org picture, 2-off title, 3-off id, 4-account_id-->
+			</div>
+			{% if  session.logged_in_user  and session.logged_in_user == a_username  %}
+				<br/><br/>
+				<button type="button" class="btn btn-success"><a href="/unfollow/{{j[1]}}/{{j[0]}}" style="color:white;">Unfollow</button>
+			{% endif %}
+		</div>
+		<hr>
+	{% endfor %}
+	</div>
+{% endblock %}
