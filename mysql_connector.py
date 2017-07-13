@@ -105,8 +105,8 @@ def generate_index(mysql,a_id):
     rest_offers = cur.fetchall()
     cur.close()
     mysql.connection.commit()
-
     rest_offers = tuple( set(rest_offers)- set(followed+favorite))
+    rest_offers = tuple(sorted(rest_offers, key=lambda item: item[5], reverse=True))
     return helpers.group_list(followed + favorite + rest_offers, 3)
     
 def get_username(mysql, a_id):
@@ -151,7 +151,7 @@ def get_user(mysql, username):
         result_args = cur.execute("SELECT A.account_id, A.account_type, A.account_email, A.account_username, A.account_bio, D.donor_picture, CONCAT(D.donor_first_name, ' ', D.donor_last_name), D.donor_address, D.donor_city, D.donor_phone_number, D.donor_followers FROM ACCOUNTS A INNER JOIN DONORS D WHERE A.account_id = %s and A.account_id = D.account_id", [account_id])
     else:
         result_args = cur.execute("SELECT A.account_id, A.account_type, A.account_email, A.account_username, A.account_bio, O.organization_picture, O.organization_name, O.organization_address, O.organization_city, O.organization_phone_number, O.organization_followers FROM ACCOUNTS A INNER JOIN ORGANIZATIONS O WHERE A.account_id = %s and A.account_id = O.account_id", [account_id])
-    user = cur.fetchone()
+    user = cur.fetchone() 
     cur.close()
     mysql.connection.commit()
     return user
@@ -247,3 +247,18 @@ def unfollow(mysql, args):
     cur.execute("DELETE FROM ACCOUNT_FOLLOWS WHERE follower_account_id = %s and followed_account_id =%s;",(args[0],args[1]))
     cur.close()
     mysql.connection.commit()
+def get_donor_donations(mysql, a_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM OFFERS WHERE account_id = %s",[a_id])
+    donations = cur.fetchall() #returns a list of tuples
+    cur.close()
+    mysql.connection.commit()
+    return donations
+
+def get_organization_donations(mysql, a_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM OFFERS O INNER JOIN REQUEST R WHERE  R.account_id = %s and O.offer_id = R.offer_id",[a_id])
+    donations = cur.fetchall() #returns a list of tuples
+    cur.close()
+    mysql.connection.commit()
+    return donations

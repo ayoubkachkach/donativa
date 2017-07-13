@@ -18,3 +18,9 @@ def format_date(date):
 
 def format_date_hour(time):
 	return time.strftime('%l:%M%p on %b %d, %Y')
+
+def upload_file(file, file_path):
+    if file and allowed_file(file.filename):
+        ensure_dir(file_path)
+        file.save(file_path)
+        print("FILE PATH IS: "+file_path)

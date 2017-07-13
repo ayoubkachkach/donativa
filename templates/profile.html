@@ -71,7 +71,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <!-- Start of Right Column -->
   
   <div class="col-md-8">
+
     <div class="card outside-card">
+    <h3 style="color:#337ab7; margin-left: 15px;">{{ user[3] }}'s Donations: </h3><hr>
       <div class="container">
         {%for element in triplets%}
         <div class="row">
@@ -79,19 +81,17 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
             <div class="col-md-4">
                 <div class="inside-card card">
                   <div class="card-content white-text">
-                  <a href="/donation_page">
-                  <img src={{item[0]}} class="thumbnail donation-card">
+                  <a href={{url_for('donation', donation_id = item[0] )}}>
+                  <img src={{folder + item[2] }} class="thumbnail donation-card">
                   </a>
-                  <span class="card-title grey-text text-darken-4">{{item[1]}}</span>
+                  <span class="card-title grey-text text-darken-4">{{ item[3] }}</span>
                     <div class="card__meta">
-                      <a href={{url_for('profile',username='theayoubkach')}} ><span class="glyphicon glyphicon-user"></span> Ayoub Kachkach</a>
-                      <time>17th March </time>
+                      <a href={{url_for('profile',username=get_username(mysql, item[1]) )}} ><span class="glyphicon glyphicon-user"></span> {{ get_username(mysql, item[1]) }}</a>
+                      <time>{{format_date(item[5])}} </time>
                     </div>
-                    <span class="blue-text text-darken-2 card-info"><i class="small material-icons">label</i>&nbsp;lindy hop, balboa, charleston</span>
                   </div>
                   <div class="card-action">
-                    <a href="#">More details</a>
-                    <a href="#" class="card-action-right">Some other link</a>
+                    <a href={{url_for('donation',donation_id = item[0] )}} style="color:#c0392b">More details</a>
                   </div>
               </div>
             </div>

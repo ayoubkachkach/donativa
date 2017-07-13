@@ -169,7 +169,7 @@ BEGIN
         );
         set @last_id := (SELECT MAX(offer_id) from OFFERS);
         UPDATE OFFERS
-        SET offer_picture = CONCAT(@last_id, '.jpg');
+        SET offer_picture = CONCAT(@last_id, '.jpg') WHERE offer_id = @last_id;
         ELSE
         insert into OFFERS
         (

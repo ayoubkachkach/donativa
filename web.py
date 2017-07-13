@@ -14,8 +14,8 @@ users_db = {'demo':sha256_crypt.encrypt('demo')}
 mylist = [('https://uniqlo.scene7.com/is/image/UNIQLO/goods_08_126133?$pdp-medium$', 'Sweater to Donate!'), ('http://kyjaak.com/images/produits/f9c208b1ca20b0bfceefa4c21a94ec07.jpg', 'Flour bags to donate.'), ('http://az616578.vo.msecnd.net/files/2016/06/10/636011916262124344-1313810365_socks.jpg', 'Socks to give out.'), ('https://www.taylorguitars.com/sites/default/files/browse-guitars-600-500x647.jpg', 'Guitar for beginners'), ('http://cdn.decoist.com/wp-content/uploads/2013/08/Set-of-6-cordial-glasses.jpg', 'Set of glasses.') ]
 app = Flask(__name__)
 with app.test_request_context():
-    app.config['UPLOAD_FOLDER_ACCOUNTS'] = "static/accounts/"
-    app.config['UPLOAD_FOLDER_DONATIONS'] = "static/donations/"
+    app.config['UPLOAD_FOLDER_ACCOUNTS'] = "/static/accounts/"
+    app.config['UPLOAD_FOLDER_DONATIONS'] = "/static/donations/"
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -86,7 +86,7 @@ def donor_signup():
         email = form.email.data
         args = (email, username, password, bio, 1, first_name, last_name, address, city, phone_number)
         if mysql_connector.create_donor(mysql, args) == True:
-            return redirect(url_for('login'))
+            return redirect(url_for('index'))
         else:
             return render_template('donor_signup.html', error="Username or email already exists!",form=form)
     return render_template('donor_signup.html', form=form)
@@ -130,12 +130,11 @@ def donation_add():
             filename = secure_filename(file.filename)
         args = (session['account_id'], title, description, city, donation_type, donation_date, address, filename)
         offer_id = mysql_connector.add_donation(mysql, args)
-        if file and helpers.allowed_file(file.filename):
-            file_path = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], filename)
-            helpers.ensure_dir(file_path)
-            file.save(file_path)
-            os.rename(file_path, os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], str(offer_id) + os.path.splitext(file_path)[1]))
-        return redirect(url_for('login'))
+        file_path = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'], str(offer_id) + '.jpg')
+        if file.filename != '':
+            helpers.upload_file(file, file_path)
+        
+        return redirect(url_for('index'))
     args = session['account_id']
     n_requests = mysql_connector.view_number_notifications(mysql,session['type'], args)
     myrequests = mysql_connector.view_notifications(mysql,session['type'], args) 
@@ -178,8 +177,16 @@ def profile(username):
     n_followers = mysql_connector.get_number_followers(mysql, args)
     n_following = mysql_connector.get_number_following(mysql, args)
     user = mysql_connector.get_user(mysql, username)
-    triplets = [[]]
-    return render_template("profile.html", user=user, triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0], n_followers=n_followers[0][0], n_following=n_following[0][0])
+    user_type = mysql_connector.get_type_user(mysql, username)
+    if user_type == 1:
+        triplets = mysql_connector.get_donor_donations(mysql, user[0])
+    else:
+        triplets = mysql_connector.get_organization_donations(mysql, user[0])
+    triplets = helpers.group_list(triplets, 2)
+    folder = os.path.join(app.config['UPLOAD_FOLDER_DONATIONS'])
+    get_username = mysql_connector.get_username
+    format_date = helpers.format_date
+    return render_template("profile.html", get_username=get_username, format_date=format_date,mysql=mysql,folder=folder, user=user, triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0])
 
 
 @app.route('/myrequests', methods=['GET','POST'])
