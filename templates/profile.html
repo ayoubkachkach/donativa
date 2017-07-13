@@ -36,8 +36,9 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
         {%endif%}
         {%if user[1] == 2 %}
         Organization
-        {%endif%}
+        {%endif%}       
         </span>
+        <span class="w3-tag w3-round type-profile" > <a href="/follow/{{user[0]}}/{{user[3]}}" style="color:white;">Follow </a></span>
         </h4>
 
         <div class="w3-container">
@@ -53,11 +54,14 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
           <p>{{user[4]}}</p>
           <br>
           <hr>
-          <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Followers</b></p>
+          <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>
+          <a href="/view_followers/{{user[0]}}/{{user[3]}}"> {{n_followers}}  Followers</a></b></p>
           <br>
           <br>
           <hr>
-          <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>Follows</b></p>
+          <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>
+          <a href = "/view_following/{{user[0]}}/{{user[3]}}">
+          {{n_following}} Following</b></p>
           <br>
         </div>
       </div><br>

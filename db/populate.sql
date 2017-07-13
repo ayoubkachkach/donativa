@@ -27,23 +27,36 @@ INSERT INTO OFFERS (account_id, offer_title, offer_description, offer_date, offe
 		VALUES(1, 'Cats to give', 'Just take them','2017-12-06', 'Rabat', 0, 2, '2017-02-01');
 
 INSERT INTO REQUEST (account_id, offer_id, request_status, request_date) 
-		VALUES (3, 1, 0, '2017-12-09 04:21:32');
+		VALUES (2, 1, 0, '2017-12-09 04:21:32');
         
 INSERT INTO OFFERS (account_id, offer_title, offer_description, offer_date, offer_city, offer_status, offer_type_id, offer_expiration_date)
 		VALUES(1, 'Ayoub to give', 'Just take him','2017-12-06', 'Anywhere', 0, 2, '2017-02-01');
 
 INSERT INTO REQUEST (account_id, offer_id, request_status, request_date) 
-		VALUES (4, 2, 0, '2017-12-09 04:21:32');
+		VALUES (2, 2, 0, '2017-12-09 04:21:32');
                 
 COMMIT;
-            
-DELETE FROM ACCOUNTS WHERE account_id > 0;
+SELECT A.account_username, A.account_id FROM ACCOUNT_FOLLOWS AF INNER JOIN ACCOUNTS A ON AF.follower_account_id = A.account_id WHERE AF.followed_account_id = '';
+
+INSERT INTO ACCOUNT_FOLLOWS (follower_account_id, followed_account_id,followed_date)VALUES ('', '', '2017-01-23');
+
+DELETE FROM ACCOUNT_FOLLOWS WHERE follower_account_id > 0;
 DELETE FROM ORGANIZATIONS WHERE account_id > 0;
 DELETE FROM DONORS WHERE account_id > 0;
 DELETE  FROM OFFERS WHERE offer_id > 0;
 DELETE  FROM REQUEST WHERE account_id > 0;
 
-SELECT * FROM OFFERS;
+
+DELETE FROM ACCOUNT_FOLLOWS WHERE follower_account_id = '' and followed_account_id ='';
+
+SELECT * FROM ACCOUNT_FOLLOWS;
+SELECT * FROM ACCOUNTS;
+
+
+SELECT A.account_username FROM ACCOUNT_FOLLOWS AF INNER JOIN ACCOUNTS A ON A.account_id = AF.followed_account_id WHERE follower_account_id = '';
+
+
+
 ALTER TABLE ACCOUNTS AUTO_INCREMENT=100;
 SELECT ORG.organization_name, ORG.organization_picture, OFF.offer_title FROM REQUEST R INNER JOIN ORGANIZATIONS ORG ON R.account_id = ORG.account_id INNER JOIN OFFERS OFF ON R.offer_id = OFF.offer_id WHERE R.request_status = 0 AND OFF.account_id = 1;
 

@@ -81,12 +81,14 @@ def get_number_requests (mysql, a_id):
 def cancel_request(mysql,args):
     cur = mysql.connection.cursor()
     cur.execute("UPDATE REQUEST SET request_status = -1 WHERE account_id = %s AND offer_id = %s;",(args[1],args[0]))
+    cur.execute("UPDATE OFFERS SET offer_status = -1 WHERE account_id = %s AND offer_id = %s;",(args[1],args[0]))
     cur.close()
     mysql.connection.commit()
     
 def accept_request(mysql,args):
     cur = mysql.connection.cursor()
     cur.execute("UPDATE REQUEST SET request_status = 1 WHERE account_id = %s AND offer_id = %s;",(args[1],args[0]))
+    cur.execute("UPDATE OFFERS SET offer_status = -1 WHERE account_id = %s AND offer_id = %s;",(args[1],args[0]))
     cur.execute("UPDATE REQUEST SET request_status = -1 WHERE account_id <> %s AND offer_id = %s;",(args[1],args[0]))
     cur.close()
     mysql.connection.commit()
@@ -209,6 +211,48 @@ def send_request(mysql, args):
     cur.close()
     mysql.connection.commit()
 
+def follow(mysql, args):
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO ACCOUNT_FOLLOWS (follower_account_id, followed_account_id,   followed_date)VALUES (%s, %s, '2017-01-23')",(args[0],args[1]))
+    cur.close()
+    mysql.connection.commit()
+
+def view_followers(mysql, args):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT A.account_username, A.account_id FROM ACCOUNT_FOLLOWS AF INNER JOIN ACCOUNTS A ON AF.follower_account_id = A.account_id WHERE AF.followed_account_id = %s;",[args])
+    data = cur.fetchall() #returns a list of tuples
+    myfollowers = [(r[0], r[1]) for r in data]
+    cur.close()
+    return myfollowers
+
+def get_number_followers(mysql, args):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT COUNT(followed_account_id) FROM ACCOUNT_FOLLOWS  WHERE followed_account_id = %s;",[args])
+    n_followers = cur.fetchall() #returns a list of tuples
+    cur.close()
+    return n_followers
+
+
+def view_following(mysql, args): #account_id
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT A.account_username, A.account_id FROM ACCOUNT_FOLLOWS AF INNER JOIN ACCOUNTS A ON A.account_id = AF.followed_account_id WHERE follower_account_id = %s;",[args])
+    data = cur.fetchall() #returns a list of tuples
+    myfollowing =  [(r[0], r[1]) for r in data]
+    cur.close()
+    return myfollowing
+
+def get_number_following(mysql, args): #account_id
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT COUNT( follower_account_id) FROM ACCOUNT_FOLLOWS WHERE follower_account_id = %s;",[args])
+    n_myfollowing = cur.fetchall() #returns a list of tuples
+    cur.close()
+    return n_myfollowing
+
+def unfollow(mysql, args):
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM ACCOUNT_FOLLOWS WHERE follower_account_id = %s and followed_account_id =%s;",(args[0],args[1]))
+    cur.close()
+    mysql.connection.commit()
 def get_donor_donations(mysql, a_id):
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM OFFERS WHERE account_id = %s",[a_id])
