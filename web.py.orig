@@ -26,11 +26,8 @@ mysql = MySQL(app)
 
 @app.route('/donation/<donation_id>')
 def donation(donation_id):
-    args = session['account_id']
     offer = mysql_connector.get_donation(mysql, donation_id)
-    n_requests = mysql_connector.view_number_notifications(mysql,session['type'], args)
-    myrequests = mysql_connector.view_notifications(mysql,session['type'], args)
-    return render_template('donation.html',myrequests=myrequests, n_requests=n_requests[0][0], offer=offer, format_date_hour=helpers.format_date_hour, get_username=mysql_connector.get_username, mysql = mysql)
+    return render_template('donation.html', offer=offer, format_date_hour=helpers.format_date_hour, get_username=mysql_connector.get_username, mysql = mysql)
 
 def login_required(func):
     @wraps(func)
@@ -180,6 +177,10 @@ def profile(username):
     n_followers = mysql_connector.get_number_followers(mysql, args)
     n_following = mysql_connector.get_number_following(mysql, args)
     user = mysql_connector.get_user(mysql, username)
+<<<<<<< HEAD
+    triplets = [[]]
+    return render_template("profile.html", user=user, triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0], n_followers=n_followers[0][0], n_following=n_following[0][0])
+=======
     user_type = mysql_connector.get_type_user(mysql, username)
     if user_type == 1:
         triplets = mysql_connector.get_donor_donations(mysql, user[0])
@@ -190,6 +191,7 @@ def profile(username):
     get_username = mysql_connector.get_username
     format_date = helpers.format_date
     return render_template("profile.html", get_username=get_username, format_date=format_date,mysql=mysql,folder=folder, user=user, triplets=triplets, myrequests=myrequests, n_requests=n_requests[0][0])
+>>>>>>> 7f6a1647a19a3757997d0d60fa1731a4c1e007e7
 
 
 @app.route('/myrequests', methods=['GET','POST'])

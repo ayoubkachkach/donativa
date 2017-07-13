@@ -1,11 +1,16 @@
 .type-profile{
-	background-color: #337ab7;
+	background-color:  #337ab7;
 	display: inline;
 	margin-left: 30px;
 	padding: 4px 4px 4px 4px;
 }
 
-
+.type-follow{
+	background-color:#d50000;
+	display: inline;
+	margin-left: 30px;
+	padding: 4px 4px 4px 4px;
+}
 .username{
 	margin-left: 30px;
 	padding-bottom: 10px;
